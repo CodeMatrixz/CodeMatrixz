@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies - TechSolutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    <style>
+        :root { --primary-teal: #14b8a6; --black: #0a0a0a; --dark-gray: #1a1a1a; --medium-gray: #2a2a2a; --light-gray: #9ca3af; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; }
+        
+        .case-header { background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070') center/cover; padding: 8rem 2rem 4rem; text-align: center; position: relative; }
+        .back-button { position: absolute; top: 2rem; left: 2rem; color: var(--primary-teal); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .case-header h1 { font-family: 'Poppins', sans-serif; font-size: 4rem; color: var(--primary-teal); }
+        
+        .cases-grid { max-width: 1400px; margin: 4rem auto; padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; }
+        .case-card { background: var(--medium-gray); border-radius: 20px; overflow: hidden; transition: all 0.3s; }
+        .case-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3); }
+        .case-image { width: 100%; height: 250px; overflow: hidden; }
+        .case-image img { width: 100%; height: 100%; object-fit: cover; }
+        .case-content { padding: 2rem; }
+        .case-tag { display: inline-block; padding: 0.4rem 1rem; background: var(--primary-teal); color: var(--black); border-radius: 20px; font-size: 0.85rem; margin-bottom: 1rem; }
+        .case-content h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .case-content p { color: var(--light-gray); margin-bottom: 1.5rem; }
+        .case-stats { display: flex; gap: 2rem; margin-bottom: 1.5rem; }
+        .stat { text-align: center; }
+        .stat .number { font-size: 2rem; font-weight: 800; color: var(--primary-teal); }
+        .stat p { font-size: 0.9rem; color: var(--light-gray); }
+        .read-more { color: var(--primary-teal); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; }
+        
+        @media (max-width: 768px) { .case-header h1 { font-size: 2.5rem; } .cases-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="case-header">
+        <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
+        <h1>Success Stories</h1>
+        <p style="font-size: 1.2rem; color: var(--light-gray); margin-top: 1rem;">Real results from real clients</p>
+    </div>
+
+    <div class="cases-grid">
+        <div class="case-card">
+            <div class="case-image"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070" alt="Healthcare"></div>
+            <div class="case-content">
+                <span class="case-tag">Healthcare</span>
+                <h3>HealthCare Plus Digital Transformation</h3>
+                <p>Revolutionized patient care management system serving 50,000+ patients with AI-powered diagnostics and cloud infrastructure.</p>
+                <div class="case-stats">
+                    <div class="stat"><div class="number">60%</div><p>Faster Processing</p></div>
+                    <div class="stat"><div class="number">$2M</div><p>Cost Savings</p></div>
+                    <div class="stat"><div class="number">50K+</div><p>Active Users</p></div>
+                </div>
+                <a href="contact.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <div class="case-card">
+            <div class="case-image"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070" alt="FinTech"></div>
+            <div class="case-content">
+                <span class="case-tag">FinTech</span>
+                <h3>SecureBank Mobile Banking Platform</h3>
+                <p>Built a next-generation mobile banking app with blockchain security, serving 2 million users across 15 countries.</p>
+                <div class="case-stats">
+                    <div class="stat"><div class="number">2M</div><p>Users</p></div>
+                    <div class="stat"><div class="number">99.9%</div><p>Uptime</p></div>
+                    <div class="stat"><div class="number">4.8★</div><p>App Rating</p></div>
+                </div>
+                <a href="contact.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <div class="case-card">
+            <div class="case-image"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070" alt="E-Commerce"></div>
+            <div class="case-content">
+                <span class="case-tag">E-Commerce</span>
+                <h3>RetailPro Online Marketplace</h3>
+                <p>Developed scalable e-commerce platform with AI recommendations, processing $50M+ in annual transactions.</p>
+                <div class="case-stats">
+                    <div class="stat"><div class="number">$50M</div><p>Revenue</p></div>
+                    <div class="stat"><div class="number">150%</div><p>Sales Growth</p></div>
+                    <div class="stat"><div class="number">500K</div><p>Products</p></div>
+                </div>
+                <a href="contact.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <div class="case-card">
+            <div class="case-image"><img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070" alt="Manufacturing"></div>
+            <div class="case-content">
+                <span class="case-tag">Manufacturing</span>
+                <h3>SmartFactory IoT Solution</h3>
+                <p>Implemented IoT sensors and predictive analytics reducing downtime by 70% and increasing production efficiency.</p>
+                <div class="case-stats">
+                    <div class="stat"><div class="number">70%</div><p>Less Downtime</p></div>
+                    <div class="stat"><div class="number">45%</div><p>Cost Reduction</p></div>
+                    <div class="stat"><div class="number">10K</div><p>Sensors</p></div>
+                </div>
+                <a href="contact.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

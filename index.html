@@ -1,0 +1,4610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Matrixz - Interactive Hero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="mobile-responsive-fixed.css">
+
+    <link rel="stylesheet" href="mobile-responsive.css">
+</head>
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --dark-teal: #0d9488;
+            --light-teal: #5eead4;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+    
+
+
+        /* Custom Cursor Glow Effect */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        body:hover .cursor-glow {
+            opacity: 1;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(20, 184, 166, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-teal);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-teal);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-teal);
+        }
+
+        .cta-button {
+            background: var(--primary-teal);
+            color: var(--black);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+      
+        
+             
+            /* HERO SECTION - WORKING VERSION */
+            .hero {
+                position: relative;
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                background: #0a0a0a;
+                margin-top: 80px;
+            }
+            
+            /* Matrix Code Background - Deepest layer */
+            #matrix-canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                opacity: 0.15; /* Subtle background effect */
+                pointer-events: none;
+            }
+            
+            /* Particle Canvas - Middle layer */
+            #hero-canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                pointer-events: none;
+            }
+            
+            /* Hero Content - Top layer */
+            .hero-content {
+                position: relative;
+                z-index: 10;
+                text-align: center;
+                padding: 4rem 2rem;
+                max-width: 1200px;
+            }
+.badge {
+    display: inline-block;
+    padding: 0.6rem 1.8rem;
+    background: rgba(20, 184, 166, 0.15);
+    border: 1px solid #14b8a6;
+    border-radius: 50px;
+    color: #14b8a6;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: #9ca3af;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-buttons a {
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.hero-buttons a:first-child {
+    background: #14b8a6;
+    color: #0a0a0a;
+}
+
+.hero-buttons a:first-child:hover {
+    background: #5eead4;
+    transform: translateY(-3px);
+}
+
+.hero-buttons a:last-child {
+    background: transparent;
+    color: #14b8a6;
+    border: 2px solid #14b8a6;
+}
+
+.hero-buttons a:last-child:hover {
+    background: #14b8a6;
+    color: #0a0a0a;
+}
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.1rem; }
+    .hero-buttons { flex-direction: column; }
+}
+
+        
+                .cta-button {
+                    background: var(--primary-teal);
+                    color: var(--black);
+                    padding: 1rem 2.5rem;
+                    border-radius: 50px;
+                    text-decoration: none;
+                    font-weight: 700;
+                    transition: all 0.3s;
+                    box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+                }
+        
+                .cta-button:hover {
+                    background: var(--light-teal);
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
+                }
+        
+                .secondary-button {
+                    background: transparent;
+                    color: var(--primary-teal);
+                    padding: 1rem 2.5rem;
+                    border-radius: 50px;
+                    text-decoration: none;
+                    font-weight: 700;
+                    border: 2px solid var(--primary-teal);
+                    transition: all 0.3s;
+                    position: relative;
+                    overflow: hidden;
+                }
+        
+                .secondary-button::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: var(--primary-teal);
+                    transition: left 0.3s ease;
+                    z-index: -1;
+                }
+        
+                .secondary-button:hover::before {
+                    left: 0;
+                }
+        
+                .secondary-button:hover {
+                    color: var(--black);
+                }
+
+
+        /* ========================================
+           ENHANCED DROPDOWN MENU
+        ======================================== */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: rgba(26, 26, 26, 0.98);
+            backdrop-filter: blur(20px);
+            min-width: 300px;
+            padding: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            list-style: none;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .dropdown li {
+            padding: 0;
+            margin: 0.4rem 0;
+        }
+
+        .dropdown a {
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            color: var(--light-gray);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            line-height: 1.6;
+            text-decoration: none;
+        }
+
+        .dropdown a:hover {
+            background: rgba(20, 184, 166, 0.12);
+            color: var(--primary-teal);
+            border-left-color: var(--primary-teal);
+            padding-left: 2.3rem;
+        }
+
+        .dropdown a i {
+            font-size: 1.2rem;
+            width: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .has-dropdown:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* For last menu item (Resources), align to right edge */
+        .nav-links li:last-of-type.has-dropdown .dropdown {
+            left: auto;
+            right: 0;
+            transform: translateY(-10px);
+        }
+
+        .nav-links li:last-of-type.has-dropdown:hover .dropdown {
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cta-button, .secondary-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Stats Section with Background */
+        .stats {
+            padding: 6rem 2rem;
+            background: linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)),
+                        url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop') center/cover fixed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-teal), transparent);
+            top: 0;
+            animation: slide 3s infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2.5rem;
+            border-radius: 20px;
+            background: rgba(42, 42, 42, 0.6);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            border: 1px solid rgba(20, 184, 166, 0.1);
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Card Glow Effect on Hover */
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .stat-item:hover::before {
+            opacity: 1;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(20, 184, 166, 0.3);
+            border-color: var(--primary-teal);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary-teal);
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--light-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+      /* Services Section - Optimized */
+.services {
+    padding: 8rem 2rem;
+    background: var(--dark-gray);
+}
+
+.services-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.services-grid {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 2rem 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-teal) var(--medium-gray);
+}
+
+.services-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.services-grid::-webkit-scrollbar-track {
+    background: var(--medium-gray);
+    border-radius: 10px;
+}
+
+.services-grid::-webkit-scrollbar-thumb {
+    background: var(--primary-teal);
+    border-radius: 10px;
+}
+
+.services-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--light-teal);
+}
+
+.service-card {
+    min-width: 350px;
+    max-width: 350px;
+    flex-shrink: 0;
+    background: var(--medium-gray);
+    padding: 3rem;
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
+}
+
+.service-icon {
+    font-size: 3rem;
+    color: var(--primary-teal);
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.service-card p {
+    color: var(--light-gray);
+    line-height: 1.7;
+}
+
+/* Navigation Buttons */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-teal);
+    border: none;
+    color: var(--black);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    background: var(--light-teal);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-prev {
+    left: -25px;
+}
+
+.nav-next {
+    right: -25px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .service-card {
+        min-width: 280px;
+        max-width: 280px;
+        padding: 2rem;
+    }
+    
+    .nav-btn {
+        display: none; /* Hide on mobile, use scroll */
+    }
+    
+    .services-grid {
+        padding: 1rem 0;
+    }
+}
+/* Section Header - Larger & More Prominent */
+.section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+    padding: 0 2rem;
+}
+
+.section-header h2 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.section-header p {
+    font-size: 1.4rem;
+    color: var(--light-gray);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Services Section Header - Extra Large */
+#services .section-header h2 {
+    font-size: 4.5rem;
+}
+
+#services .section-header p {
+    font-size: 1.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .section-header h2 {
+        font-size: 3.5rem;
+    }
+    
+    .section-header p {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-header h2 {
+        font-size: 2.5rem;
+    }
+    
+    .section-header p {
+        font-size: 1.1rem;
+    }
+    
+    #services .section-header h2 {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .section-header p {
+        font-size: 1rem;
+    }
+}
+/* Header & navigation */
+header nav {
+  /* your existing rules */
+}
+
+/* Default: hide on desktop/tablet */
+.mobile-menu-btn {
+  display: none;
+}
+
+/* Testimonials with Background */
+.testimonials {
+  padding: 8rem 2rem;
+  background: linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)),
+              url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop')
+              center/cover fixed;
+  position: relative;
+  overflow: hidden; /* important for marquee */
+}
+
+/* Container for the running strip */
+.testimonial-marquee {
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden; /* hide overflow left/right */
+}
+
+/* The moving track */
+.testimonial-track {
+  display: inline-flex;
+  gap: 2.5rem;
+  /* The content is duplicated, so width is effectively ~200%.
+     Move from 0 to -50% for an infinite loop effect. */
+  animation: testimonials-marquee 35s linear infinite;
+}
+
+/* Each card in the strip */
+.testimonial-card {
+  background: rgba(42, 42, 42, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 20px;
+  border-left: 4px solid var(--color-primary); /* or your var(--primary-teal) */
+  position: relative;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  min-width: 350px;          /* key for horizontal strip */
+  max-width: 400px;
+  flex-shrink: 0;            /* prevent shrinking */
+  /* remove initial fade-in/translate used for scroll reveal */
+  opacity: 1;
+  transform: none;
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+
+/* Optional “visible” class no longer needed for animation,
+   but keep for compatibility if used elsewhere */
+.testimonial-card.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Glow effect for testimonials */
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left,
+              rgba(20, 184, 166, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  border-radius: 20px;
+}
+
+.testimonial-card:hover::before {
+  opacity: 1;
+}
+
+.testimonial-card:hover {
+  transform: translateX(10px);
+  box-shadow: -10px 10px 40px rgba(20, 184, 166, 0.2);
+  border-left-color: var(--color-primary-hover); /* or var(--light-teal) */
+}
+
+.testimonial-card::after {
+  content: '"';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 5rem;
+  color: var(--color-primary);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+}
+
+.testimonial-card p {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary); /* or var(--light-gray) */
+  margin-bottom: 2rem;
+  font-style: italic;
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author {
+  color: var(--color-background); /* or var(--white) depending on your token set */
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+/* Marquee keyframes */
+@keyframes testimonials-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* half the width because content is duplicated */
+  }
+}
+
+/* Responsive tweak for narrow screens */
+@media (max-width: 768px) {
+  .testimonial-card {
+    min-width: 260px;
+    padding: 2rem;
+  }
+}
+
+        /* CTA Section with Parallax Background */
+        .cta-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%),
+                        url('https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop') center/cover fixed;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            top: -250px;
+            right: -250px;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            color: var(--black);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid var(--medium-gray);
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-teal);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(10px);
+        }
+
+        .footer-section a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-teal);
+        }
+
+        /* Social Icons with Effects */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--medium-gray);
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            transform: scale(0);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .social-icon i {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.4);
+            border-color: var(--primary-teal);
+        }
+
+        .social-icon:hover::before {
+            transform: scale(1);
+        }
+
+        .social-icon:hover i {
+            color: var(--black);
+            transform: rotate(360deg);
+        }
+
+        /* Contact Info Icons */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        .contact-item:hover {
+            color: var(--primary-teal);
+            background: rgba(20, 184, 166, 0.05);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--medium-gray);
+            color: var(--primary-teal);
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .contact-item:hover .contact-icon {
+            background: var(--primary-teal);
+            color: var(--black);
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--medium-gray);
+            color: var(--light-gray);
+        }
+        
+/* Contact Section Styles */
+.contact {
+    padding: 8rem 2rem;
+    background: var(--dark-gray);
+}
+
+.contact-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+}
+
+.contact-info-section h3 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--primary-teal);
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.detail-item i {
+    font-size: 1.5rem;
+    color: var(--primary-teal);
+    margin-top: 0.3rem;
+}
+
+.detail-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.detail-item p {
+    color: var(--light-gray);
+}
+
+/* Contact Form */
+.contact-form {
+    background: var(--medium-gray);
+    padding: 3rem;
+    border-radius: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: var(--dark-gray);
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(156, 163, 175, 0.5);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-teal);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--primary-teal);
+    color: var(--black);
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+}
+
+.submit-button:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-form {
+        padding: 2rem;
+    }
+}
+
+        /* Chatbot Styles - Smaller Professional Design */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            border: 3px solid var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(20, 184, 166, 0.6);
+            transition: all 0.3s;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .chatbot-avatar-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        .chatbot-avatar-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(20, 184, 166, 0.8);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 380px;
+            height: 550px;
+            background: var(--dark-gray);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--medium-gray);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: bottom right;
+            animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chatbot-window.active {
+            display: flex;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            padding: 1.2rem 1.5rem;
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .chatbot-header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-header-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--white);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .chatbot-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatbot-name-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .chatbot-status {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--white);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .chatbot-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: var(--white);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chatbot-close:hover {
+            transform: rotate(90deg);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1.2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            background: var(--black);
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.9rem 1.1rem;
+            border-radius: 15px;
+            word-wrap: break-word;
+            animation: messageSlide 0.3s ease;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            background: var(--medium-gray);
+            color: var(--white);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user {
+            background: var(--primary-teal);
+            color: var(--black);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            font-weight: 500;
+        }
+
+        .chatbot-input-area {
+            padding: 1.2rem;
+            border-top: 1px solid var(--medium-gray);
+            display: flex;
+            gap: 0.8rem;
+            background: var(--dark-gray);
+        }
+
+        .chatbot-input {
+            flex: 1;
+            background: var(--medium-gray);
+            border: 1px solid var(--medium-gray);
+            color: var(--white);
+            padding: 0.8rem 1rem;
+            border-radius: 22px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .chatbot-input::placeholder {
+            color: var(--light-gray);
+        }
+
+        .chatbot-input:focus {
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .chatbot-send {
+            background: var(--primary-teal);
+            border: none;
+            color: var(--black);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+
+        .quick-option {
+            background: transparent;
+            border: 1px solid var(--primary-teal);
+            color: var(--primary-teal);
+            padding: 0.5rem 0.9rem;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .quick-option:hover {
+            background: var(--primary-teal);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 0.9rem 1.1rem;
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chatbot-toggle {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .chatbot-window {
+                width: calc(100vw - 30px);
+                right: 15px;
+                height: 500px;
+            }
+        }
+
+        /* Custom scrollbar */
+        .chatbot-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: var(--primary-teal);
+            border-radius: 3px;
+        }
+        /* NEW SECTION #1: ABOUT US CSS */
+        .about {
+            padding: 8rem 2rem;
+            background: var(--black);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-teal);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .about-feature i {
+            font-size: 1.5rem;
+            color: var(--primary-teal);
+        }
+
+        .portfolio {
+            padding: 8rem 2rem;
+            background: var(--black);
+        }
+
+        .portfolio-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .portfolio-card {
+            background: var(--medium-gray);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(20, 184, 166, 0.3);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--white);
+        }
+
+        .portfolio-content {
+            padding: 2rem;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-tag {
+            background: var(--primary-teal);
+            color: var(--black);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+/* ========================================
+   OUR STORY SECTION - COMPLETE
+======================================== */
+.story-section {
+    min-height: 2400vh; /* DOUBLED from 1200vh for slower scroll */
+    background: var(--black);
+    position: relative;
+    padding: 0;
+    z-index: 1;
+}
+
+/* Section Header */
+.story-section .section-header {
+    text-align: center;
+    padding: 8rem 2rem 4rem 2rem;
+    background: var(--black);
+    position: relative;
+    z-index: 10;
+}
+
+.story-section .section-header h2 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+}
+
+.story-section .section-header p {
+    font-size: 1.4rem;
+    color: var(--light-gray);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Story Container */
+.story-container {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 3rem;
+    padding: 0 4rem;
+    align-items: center;
+    background: var(--black);
+    max-width: 1600px;
+    margin: 0 auto;
+}
+/* Images - SLOWER TRANSITIONS */
+.story-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out; /* INCREASED from 0.6s */
+    will-change: opacity;
+}
+
+.story-image.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+/* Content - SLOWER TRANSITIONS */
+.story-content {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* SLOWER with smooth easing */
+    will-change: transform, opacity;
+}
+
+.story-content.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    position: relative;
+}
+/* Left - Images */
+.story-images-wrapper {
+    position: relative;
+    height: 70vh;
+    max-height: 800px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--medium-gray);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.story-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    will-change: opacity;
+}
+
+.story-image.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    display: block;
+    transform: translateZ(0);
+}
+
+.story-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(20, 184, 166, 0.1) 0%, 
+        rgba(10, 10, 10, 0.3) 100%);
+    z-index: 1;
+    border-radius: 20px;
+}
+
+/* Right - Content */
+.story-content-wrapper {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.story-content {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    will-change: transform, opacity;
+}
+
+.story-content.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    position: relative;
+}
+
+/* Story Tags */
+.story-tags {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+}
+
+.story-tag {
+    background: var(--primary-teal);
+    color: var(--black);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.story-tag.featured {
+    background: linear-gradient(135deg, var(--primary-teal), var(--light-teal));
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(20, 184, 166, 0.9);
+    }
+}
+
+/* Story Title */
+.story-content h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+/* Story Description */
+.story-content p {
+    font-size: 1.1rem;
+    color: var(--light-gray);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+/* Story Stats */
+.story-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.stat {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--medium-gray);
+    border-radius: 15px;
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-teal), var(--light-teal));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(20, 184, 166, 0.4);
+    border-color: var(--primary-teal);
+}
+
+.stat:hover::before {
+    transform: scaleX(1);
+}
+
+.stat strong {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-teal);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stat span {
+    font-size: 0.95rem;
+    color: var(--light-gray);
+    font-weight: 500;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 1400px) {
+    .story-container {
+        padding: 0 3rem;
+        gap: 2.5rem;
+    }
+
+    .story-content h2 {
+        font-size: 2.8rem;
+    }
+
+    .story-content p {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .story-container {
+        padding: 0 2rem;
+        gap: 2rem;
+    }
+
+    .story-images-wrapper {
+        height: 60vh;
+    }
+
+    .story-content h2 {
+        font-size: 2.5rem;
+    }
+
+    .story-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .story-section .section-header h2 {
+        font-size: 3rem;
+    }
+
+    .story-section .section-header p {
+        font-size: 1.2rem;
+    }
+
+    .story-container {
+        grid-template-columns: 1fr;
+        padding: 0 2rem;
+        gap: 2rem;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .story-images-wrapper {
+        height: 50vh;
+        order: 1;
+    }
+
+    .story-content-wrapper {
+        order: 2;
+        padding: 2rem 0;
+    }
+
+    .story-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .story-section {
+        min-height: 1400vh;
+    }
+
+    .story-section .section-header {
+        padding: 4rem 1rem 2rem 1rem;
+    }
+
+    .story-section .section-header h2 {
+        font-size: 2.5rem;
+    }
+
+    .story-section .section-header p {
+        font-size: 1.1rem;
+    }
+
+    .story-container {
+        padding: 0 1.5rem;
+    }
+
+    .story-images-wrapper {
+        height: 40vh;
+    }
+
+    .story-content h2 {
+        font-size: 2rem;
+    }
+
+    .story-content p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .story-tag {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.9rem;
+    }
+
+    .stat {
+        padding: 1.2rem;
+    }
+
+    .stat strong {
+        font-size: 2rem;
+    }
+
+    .stat span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .story-section .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .story-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .story-content p {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* ================================================
+   SMOOTH SCROLL & ANIMATIONS - OPTIMIZED
+   ================================================ */
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Base Animation Classes */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.slide-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.slide-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Stagger Animation Delays */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+
+/* Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-teal), var(--light-teal));
+    z-index: 10000;
+    transform-origin: left;
+    transition: transform 0.1s ease;
+}
+
+/* Smooth Section Transitions */
+section {
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+/* Card Hover Effects */
+.service-card,
+.portfolio-card,
+.testimonial-card {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Image Zoom on Scroll */
+.portfolio-image img,
+.about-container img {
+    transition: transform 0.6s ease;
+}
+
+/* Button Animations */
+.cta-button,
+.secondary-button,
+.submit-button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before,
+.secondary-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.cta-button:hover::before,
+.secondary-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Smooth Navigation */
+.nav-links a {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-teal);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* FAQ Smooth Accordion */
+.faq {
+    padding: 8rem 2rem;
+    background: var(--black);
+    position: relative;
+    z-index: 10; /* Higher than story section */
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* FAQ Header */
+.faq .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 10;
+}
+
+.faq .section-header h2 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.faq .section-header p {
+    font-size: 1.4rem;
+    color: var(--light-gray);
+}
+
+/* FAQ Items */
+.faq-item {
+    background: var(--medium-gray);
+    margin-bottom: 1.5rem;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(20, 184, 166, 0.2);
+}
+
+.faq-question {
+    padding: 1.5rem 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    color: var(--white);
+    user-select: none;
+}
+
+.faq-question:hover {
+    background: var(--primary-teal);
+    color: var(--black);
+}
+
+.faq-item.active .faq-question {
+    background: var(--primary-teal);
+    color: var(--black);
+}
+
+.faq-answer {
+    padding: 0 2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color: var(--light-gray);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.faq-answer.active {
+    padding: 1.5rem 2rem;
+    max-height: 500px;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+    color: var(--primary-teal);
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+    color: var(--black);
+}
+
+/* Responsive - FAQ */
+@media (max-width: 768px) {
+    .faq {
+        padding: 4rem 1rem;
+    }
+
+    .faq .section-header h2 {
+        font-size: 2.5rem;
+    }
+
+    .faq .section-header p {
+        font-size: 1.1rem;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+        padding: 1.2rem 1.5rem;
+    }
+
+    .faq-answer {
+        font-size: 0.95rem;
+    }
+
+    .faq-answer.active {
+        padding: 1.2rem 1.5rem;
+    }
+}
+
+/* Stat Counter Animation */
+.stat-number {
+    transition: all 0.3s ease;
+}
+
+/* Client Logo Hover */
+.client-logo {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Form Input Focus */
+.form-group input:focus,
+.form-group textarea:focus {
+    transform: scale(1.02);
+}
+
+/* Contact Item Hover */
+.contact-item {
+    transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+}
+
+/* Chatbot Smooth Open */
+.chatbot-window {
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+}
+
+.chatbot-window.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+/* Portfolio Tag Animation */
+.portfolio-tag {
+    transition: all 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-tag {
+    transform: translateY(-2px);
+}
+
+/* FORCE HIDE - Works on ALL devices */
+.mobile-menu-toggle {
+    display: none !important;
+}
+
+.back-to-top,
+.scroll-to-top,
+#backToTop {
+    display: none !important;
+}
+
+/* Also hide if it has different class names */
+button[class*="menu-toggle"],
+button[class*="hamburger"],
+a[href="#top"],
+.to-top,
+.scroll-top {
+    display: none !important;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Cursor Glow -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+   
+<!-- Header with Fixed Alignment & Contact Dropdown + Mobile Menu -->
+<header id="header">
+    <nav>
+        <a href="#" class="logo">
+            <i class="f"></i>
+           Code Matrixz </Code>
+        </a>
+        
+        <!-- ⭐ ADD THIS MOBILE BUTTON HERE ⭐ -->
+        <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        
+        <ul class="nav-links">
+          <li class="has-dropdown">
+  <a href="services.html#top">Services <i class="fas fa-chevron-down"></i></a>
+  <ul class="dropdown">
+    <li>
+      <a href="services.html#software-development">
+        <i class="fas fa-laptop-code"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Software Development</span>
+          <span class="menu-desc">Custom enterprise software solutions</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="services.html#web-mobile">
+        <i class="fas fa-mobile-alt"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Web & Mobile Apps</span>
+          <span class="menu-desc">Responsive cross-platform applications</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="services.html#ai-automation">
+        <i class="fas fa-robot"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">AI & Automation</span>
+          <span class="menu-desc">Intelligent automation & ML solutions</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="services.html#cloud-services">
+        <i class="fas fa-cloud"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Cloud Services</span>
+          <span class="menu-desc">Scalable cloud infrastructure & migration</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="services.html#enterprise">
+        <i class="fas fa-shield-alt"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Cybersecurity</span>
+          <span class="menu-desc">24/7 security monitoring & protection</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="services.html#enterprise">
+        <i class="fas fa-cogs"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">DevOps & CI/CD</span>
+          <span class="menu-desc">Automated deployment pipelines</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</li>
+            <li class="has-dropdown">
+  <a href="technologies.html#top">Technologies <i class="fas fa-chevron-down"></i></a>
+  <ul class="dropdown">
+    <li>
+      <a href="technologies.html#blockchain">
+        <i class="fas fa-link"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Blockchain</span>
+          <span class="menu-desc">Secure, distributed ledger solutions</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="technologies.html#iot">
+        <i class="fas fa-network-wired"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">IoT Development</span>
+          <span class="menu-desc">Connected devices & smart systems</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="technologies.html#arvr">
+        <i class="fas fa-vr-cardboard"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">AR/VR Solutions</span>
+          <span class="menu-desc">Immersive digital experiences</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="technologies.html#computer-vision">
+        <i class="fas fa-eye"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Computer Vision</span>
+          <span class="menu-desc">Intelligent image & video analysis</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="technologies.html#machine-learning">
+        <i class="fas fa-brain"></i>
+        <div class="menu-item-content">
+          <span class="menu-title">Machine Learning</span>
+          <span class="menu-desc">Predictive models & automation</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</li>
+            
+            <li class="has-dropdown">
+                <a href="#portfolio">Solutions <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-hospital"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Healthcare</span>
+                                <span class="menu-desc">HIPAA-compliant medical systems</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">E-Commerce</span>
+                                <span class="menu-desc">Complete online retail platforms</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">FinTech</span>
+                                <span class="menu-desc">Secure financial technology solutions</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Education</span>
+                                <span class="menu-desc">Learning management systems</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-industry"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Manufacturing</span>
+                                <span class="menu-desc">Smart factory automation</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-building"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Real Estate</span>
+                                <span class="menu-desc">Property management platforms</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="has-dropdown">
+                <a href="#resources">Resources <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-book"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Documentation</span>
+                                <span class="menu-desc">Complete API & technical guides</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portfolio">
+                            <i class="fas fa-briefcase"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Case Studies</span>
+                                <span class="menu-desc">Real client success stories</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-video"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Webinars</span>
+                                <span class="menu-desc">Live & recorded tech sessions</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-file-alt"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Whitepapers</span>
+                                <span class="menu-desc">In-depth industry research</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#faq">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">FAQ</span>
+                                <span class="menu-desc">Frequently asked questions</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="has-dropdown">
+                <a href="#contact">Contact <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="#contact">
+                            <i class="fas fa-envelope"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Email Us</span>
+                                <span class="menu-desc">contact@codematrixz.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+917200006850">
+                            <i class="fas fa-phone"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Call Us</span>
+                                <span class="menu-desc">+91 7200006850</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact">
+                            <i class="fas fa-comments"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Live Chat</span>
+                                <span class="menu-desc">Chat with our team now</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact">
+                            <i class="fas fa-calendar"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Schedule Meeting</span>
+                                <span class="menu-desc">Book a consultation call</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="menu-item-content">
+                                <span class="menu-title">Visit Us</span>
+                                <span class="menu-desc">Find our office locations</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <a href="#contact" class="cta-button">Get Started</a>
+    </nav>
+</header>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <!-- Matrix Code Background (deepest layer) -->
+        <canvas id="matrix-canvas"></canvas>
+        
+        <!-- Particle Canvas (middle layer) -->
+        <canvas id="hero-canvas"></canvas>
+        
+        <!-- Hero Content (top layer) -->
+        <div class="hero-content">
+            <div class="badge"> INNOVATE • BUILD • SCALE</div>
+            <h1>Architecting the<br>Digital Future</h1>
+            <p>We specialize in cutting-edge software development, AI automation, cloud infrastructure and enterprise solutions to help your business thrive in the digital age.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="cta-button">Request Free Consultation</a>
+                <a href="#services" class="secondary-button">Explore Services</a>
+            </div>
+        </div>
+    </section>
+    
+
+     <!-- About Us -->
+     <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About Code Matrixz</h2>
+                <p>We are a leading software development company dedicated to transforming businesses through innovative technology solutions. With over a decade of experience, we've helped hundreds of companies achieve their digital transformation goals.</p>
+                <p>Our team of expert developers, designers and consultants work together to deliver cutting-edge solutions that drive growth, efficiency and competitive advantage.</p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>3+ Years Experience</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Skilled Professionals</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Customer Centric Approach</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600" alt="Team" style="width:100%; border-radius:20px;">
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item" data-delay="0">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat-item" data-delay="100">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-item" data-delay="200">
+                <div class="stat-number" data-target="22280">0</div>
+                <div class="stat-label">Hours Worked in Innovation</div>
+            </div>
+            <div class="stat-item" data-delay="300">
+                <div class="stat-number" data-target="3">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Services Section - Optimized -->
+<section id="services" class="services">
+    <ul>
+       
+    <div class="section-header">
+        <h2>Our Core Services</h2>
+        <p>Comprehensive AI & Web solutions designed to accelerate your business growth</p>
+    </div>
+    
+   
+       <div class="services-grid" id="servicesGrid">
+  <div class="service-card">
+    <a href="services.html#software-development" class="service-card-link">
+      <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+      <h3>Software Development</h3>
+      <p>Custom-built software solutions tailored to your business needs.</p>
+    </a>
+  </div>
+
+  <div class="service-card">
+    <a href="services.html#web-mobile" class="service-card-link">
+      <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h3>Web & Mobile Development</h3>
+      <p>Responsive applications that deliver exceptional user experiences.</p>
+    </a>
+  </div>
+
+  <div class="service-card">
+    <a href="services.html#ai-automation" class="service-card-link">
+      <div class="service-icon"><i class="fas fa-robot"></i></div>
+      <h3>AI & Automation</h3>
+      <p>Harness AI to optimize operations and enhance decision-making.</p>
+    </a>
+  </div>
+
+  <div class="service-card">
+    <a href="services.html#cloud-services" class="service-card-link">
+      <div class="service-icon"><i class="fas fa-cloud"></i></div>
+      <h3>Cloud Services</h3>
+      <p>Scalable, secure cloud infrastructure that grows with your business.</p>
+    </a>
+  </div>
+
+  <div class="service-card">
+    <a href="services.html#enterprise" class="service-card-link">
+      <div class="service-icon"><i class="fas fa-building"></i></div>
+      <h3>Enterprise Solutions</h3>
+      <p>Custom ERP, CRM, HRM systems to streamline operations.</p>
+    </a>
+  </div>
+</div>
+        
+       
+</section>
+
+<!-- Portfolio with HD Images - Healthcare Featured Center -->
+
+<!-- Our Story Section - Complete -->
+<section id="our-story" class="story-section">
+    <!-- Section Header -->
+    <div class="section-header">
+        <h2>Our Success Stories</h2>
+        <p>Real projects, real results, real impact across industries</p>
+    </div>
+    
+    <div class="story-container">
+        <!-- Left Side - Sticky Images -->
+        <div class="story-images-wrapper">
+            <!-- Story 1: E-Commerce -->
+            <div class="story-image active" data-story="0">
+                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&h=1600&fit=crop&q=90" alt="AI-Powered E-Commerce Platform">
+            </div>
+            
+            <!-- Story 2: FinTech -->
+            <div class="story-image" data-story="1">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=1600&fit=crop&q=90" alt="Financial Analytics">
+            </div>
+            
+            <!-- Story 3: Education -->
+            <div class="story-image" data-story="2">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=1600&fit=crop&q=90" alt="Online Learning">
+            </div>
+            
+            <!-- Story 4: Healthcare -->
+            <div class="story-image" data-story="3">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=1600&fit=crop&q=90" alt="Healthcare System">
+            </div>
+            
+            <!-- Story 5: Logistics -->
+            <div class="story-image" data-story="4">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=1600&fit=crop&q=90" alt="Logistics Management">
+            </div>
+            
+            <!-- Story 6: Real Estate -->
+            <div class="story-image" data-story="5">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=1600&fit=crop&q=90" alt="Real Estate Portal">
+            </div>
+            
+            <!-- Story 7: Manufacturing -->
+            <div class="story-image" data-story="6">
+                <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=1200&h=1600&fit=crop&q=90" alt="Smart Factory">
+            </div>
+            
+            <!-- Story 8: Restaurant -->
+            <div class="story-image" data-story="7">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=1600&fit=crop&q=90" alt="Restaurant App">
+            </div>
+            
+            <!-- Story 9: Travel -->
+            <div class="story-image" data-story="8">
+                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=1600&fit=crop&q=90" alt="Travel Platform">
+            </div>
+            
+            <!-- Story 10: Banking -->
+            <div class="story-image" data-story="9">
+                <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1200&h=1600&fit=crop&q=90" alt="Digital Banking">
+            </div>
+            
+            <!-- Story 11: HR Tech -->
+            <div class="story-image" data-story="10">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=1600&fit=crop&q=90" alt="HR Platform">
+            </div>
+            
+            <!-- Story 12: Video Streaming -->
+            <div class="story-image" data-story="11">
+                <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&h=1600&fit=crop&q=90" alt="Video Streaming">
+            </div>
+        </div>
+
+        <!-- Right Side - Content with Enhanced Descriptions -->
+        <div class="story-content-wrapper">
+            <!-- Story 1: E-Commerce -->
+            <div class="story-content active" data-story="0">
+                <div class="story-tags">
+                    <span class="story-tag">E-commerce</span>
+                    <span class="story-tag">AI</span>
+                    <span class="story-tag">Chatbot</span>
+                </div>
+                <h2>AI-Powered E-Commerce Platform</h2>
+                <p>Built an intelligent e-commerce solution with AI-powered chatbot for 24/7 customer support, personalized product recommendations using machine learning, and smart automation for inventory management. The platform features dynamic pricing algorithms, predictive analytics for demand forecasting, and seamless payment gateway integration. Our solution increased conversion rates by 45% and reduced cart abandonment by 35%.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>45%</strong>
+                        <span>Sales Increase</span>
+                    </div>
+                    <div class="stat">
+                        <strong>35%</strong>
+                        <span>Less Cart Abandonment</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 2: FinTech -->
+            <div class="story-content" data-story="1">
+                <div class="story-tags">
+                    <span class="story-tag">FinTech</span>
+                    <span class="story-tag">Analytics</span>
+                </div>
+                <h2>Financial Analytics Dashboard</h2>
+                <p>Created a comprehensive real-time financial analytics platform capable of processing over 1 million transactions daily. The system features advanced data visualization, predictive modeling for market trends, risk assessment algorithms, and automated compliance reporting. Built with high availability architecture ensuring 99.99% uptime, the platform provides institutional-grade analytics with millisecond-level latency for critical financial decisions.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>1M+</strong>
+                        <span>Daily Transactions</span>
+                    </div>
+                    <div class="stat">
+                        <strong>99.99%</strong>
+                        <span>Uptime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 3: Education -->
+            <div class="story-content" data-story="2">
+                <div class="story-tags">
+                    <span class="story-tag">Education</span>
+                    <span class="story-tag">Mobile</span>
+                </div>
+                <h2>Online Learning Platform</h2>
+                <p>Delivered a highly scalable Learning Management System (LMS) platform with adaptive bitrate video streaming, interactive live classes, and AI-powered course recommendations. The platform supports multi-device access, offline content download, real-time progress tracking, and automated assessments with instant feedback. Serving over 100,000 students globally with personalized learning paths and gamification elements that increased course completion rates by 60%.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>100K+</strong>
+                        <span>Active Students</span>
+                    </div>
+                    <div class="stat">
+                        <strong>60%</strong>
+                        <span>Higher Completion</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 4: Healthcare -->
+            <div class="story-content" data-story="3">
+                <div class="story-tags">
+                    <span class="story-tag">Healthcare</span>
+                    <span class="story-tag">Cloud</span>
+                   
+                </div>
+                <h2>HealthCare Management System</h2>
+                <p>Developed a HIPAA-compliant comprehensive healthcare platform serving 50,000+ patients with real-time appointment scheduling, telemedicine capabilities, Electronic Health Records (EHR) integration, and prescription management. The system includes AI-powered symptom checker, automated billing and insurance claims processing, patient portal with secure messaging, and analytics dashboard for healthcare providers. Reduced average wait times by 40% and improved patient satisfaction scores by 85%.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>50K+</strong>
+                        <span>Patients Served</span>
+                    </div>
+                    <div class="stat">
+                        <strong>85%</strong>
+                        <span>Satisfaction Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 5: Logistics -->
+            <div class="story-content" data-story="4">
+                <div class="story-tags">
+                    <span class="story-tag">Logistics</span>
+                    <span class="story-tag">IoT</span>
+                </div>
+                <h2>Smart Logistics Management</h2>
+                <p>Implemented an IoT-based intelligent tracking system with real-time GPS monitoring, route optimization using AI algorithms, and predictive maintenance for fleet vehicles. The platform integrates warehouse management, automated inventory control, digital proof of delivery, and customer notification system. Successfully reduced delivery times by 30%, operational costs by 25%, and improved on-time delivery rate to 98%. The system processes 10,000+ shipments daily across multiple distribution centers.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>30%</strong>
+                        <span>Faster Delivery</span>
+                    </div>
+                    <div class="stat">
+                        <strong>25%</strong>
+                        <span>Cost Reduction</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 6: Real Estate -->
+            <div class="story-content" data-story="5">
+                <div class="story-tags">
+                    <span class="story-tag">Real Estate</span>
+                    <span class="story-tag">Web</span>
+                </div>
+                <h2>Property Management Portal</h2>
+                <p>Built a comprehensive Customer Relationship Management (CRM) system for real estate with immersive 360° virtual tours, automated property listings synced across multiple platforms, AI-powered property valuation, and 24/7 intelligent chatbot support. The portal features advanced search filters, mortgage calculator, document management, and lead tracking system. Integrated with popular listing sites, the platform increased lead conversion by 55% and reduced property selling time by 40%.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>55%</strong>
+                        <span>More Conversions</span>
+                    </div>
+                    <div class="stat">
+                        <strong>360°</strong>
+                        <span>Virtual Tours</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 7: Manufacturing -->
+            <div class="story-content" data-story="6">
+                <div class="story-tags">
+                    <span class="story-tag">Manufacturing</span>
+                    <span class="story-tag">Automation</span>
+                </div>
+                <h2>Smart Factory Solution</h2>
+                <p>Automated complete production line with Industry 4.0 technologies including IoT sensors, predictive maintenance using machine learning, real-time quality control with computer vision, and digital twin simulation. The system features automated inventory management, production scheduling optimization, energy consumption monitoring, and comprehensive analytics dashboard. Successfully improved operational efficiency by 40%, reduced unplanned downtime by 60%, and increased overall equipment effectiveness (OEE) to 92%.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>40%</strong>
+                        <span>Efficiency Gain</span>
+                    </div>
+                    <div class="stat">
+                        <strong>60%</strong>
+                        <span>Less Downtime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 8: Restaurant -->
+            <div class="story-content" data-story="7">
+                <div class="story-tags">
+                    <span class="story-tag">Restaurant</span>
+                    <span class="story-tag">Mobile</span>
+                </div>
+                <h2>Restaurant Management App</h2>
+                <p>Developed a comprehensive multi-restaurant ordering platform with real-time delivery tracking using GPS, smart menu management, digital payments integration, and customer loyalty programs. The app features AI-based order prediction, kitchen display system (KDS), inventory alerts, and analytics dashboard for restaurant owners. Successfully onboarded 500+ restaurants and 200,000+ active users, processing 50,000+ orders daily with an average delivery time of 28 minutes and 4.8-star customer rating.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>500+</strong>
+                        <span>Partner Restaurants</span>
+                    </div>
+                    <div class="stat">
+                        <strong>200K+</strong>
+                        <span>Active Users</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 9: Travel -->
+            <div class="story-content" data-story="8">
+                <div class="story-tags">
+                    <span class="story-tag">Travel</span>
+                    <span class="story-tag">Booking</span>
+                </div>
+                <h2>Travel Booking Platform</h2>
+                <p>Created an all-in-one travel booking ecosystem with AI-powered itinerary planning, real-time flight and hotel price comparison across 100+ providers, visa assistance, and travel insurance integration. The platform features personalized destination recommendations, multi-currency support, 24/7 customer support, and mobile boarding passes. Processing 50,000+ bookings monthly with dynamic pricing algorithms that help customers save an average of 25% on their travel expenses.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>50K+</strong>
+                        <span>Monthly Bookings</span>
+                    </div>
+                    <div class="stat">
+                        <strong>25%</strong>
+                        <span>Average Savings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 10: Banking -->
+            <div class="story-content" data-story="9">
+                <div class="story-tags">
+                    <span class="story-tag">Banking</span>
+                    <span class="story-tag">Security</span>
+                </div>
+                <h2>Digital Banking Solution</h2>
+                <p>Launched a next-generation secure mobile banking application with multi-factor biometric authentication (fingerprint, facial recognition), real-time fraud detection using AI, instant money transfers, bill payments, and investment portfolio management. The platform features voice banking, automated savings, spending analytics, and cardless ATM withdrawals. Serving 2 million+ customers with 99.9% uptime, bank-grade security with end-to-end encryption, and average transaction processing time under 2 seconds.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>2M+</strong>
+                        <span>Active Customers</span>
+                    </div>
+                    <div class="stat">
+                        <strong>99.9%</strong>
+                        <span>System Uptime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 11: HR Tech -->
+            <div class="story-content" data-story="10">
+                <div class="story-tags">
+                    <span class="story-tag">HR Tech</span>
+                    <span class="story-tag">AI</span>
+                </div>
+                <h2>AI Recruitment Platform</h2>
+                <p>Built an advanced AI-powered hiring platform with intelligent resume screening using natural language processing, automated candidate matching based on job requirements, video interview analysis, and skill assessment tools. The system includes applicant tracking, automated email campaigns, interview scheduling, and comprehensive analytics. Successfully reduced recruitment time by 65%, improved candidate quality score by 50%, and helped companies save an average of $15,000 per hire through process optimization.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>65%</strong>
+                        <span>Time Saved</span>
+                    </div>
+                    <div class="stat">
+                        <strong>50%</strong>
+                        <span>Better Matches</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 12: Video Streaming -->
+            <div class="story-content" data-story="11">
+                <div class="story-tags">
+                    <span class="story-tag">Media</span>
+                    <span class="story-tag">Streaming</span>
+                </div>
+                <h2>Video Streaming Platform</h2>
+                <p>Developed a high-performance on-demand video streaming service with adaptive bitrate technology for seamless playback, content delivery network (CDN) integration for global reach, and advanced DRM protection. The platform features personalized recommendations using machine learning, offline downloads, multi-profile support, 4K HDR streaming, and live broadcasting capabilities. Successfully serving 500,000+ concurrent users with 99.95% uptime, average buffer rate under 0.5%, and supporting content in 20+ languages across 150+ countries.</p>
+                <div class="story-stats">
+                    <div class="stat">
+                        <strong>500K+</strong>
+                        <span>Concurrent Users</span>
+                    </div>
+                    <div class="stat">
+                        <strong>99.95%</strong>
+                        <span>Streaming Uptime</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Testimonials -->
+  <!-- Testimonials -->
+<section id="testimonials" class="testimonials">
+  <div class="section-header">
+    <h2>What Our Clients Say</h2>
+    <p>Real results from real partnerships</p>
+  </div>
+
+  <div class="testimonial-marquee">
+    <div class="testimonial-track">
+      <!-- Sequence 1 -->
+      <div class="testimonial-card">
+        <p>"From the first call to final delivery, the process was seamless. We now have a brand that truly reflects who we are."</p>
+        <div class="testimonial-author">- Bharathi, M.D Subikshaa Trust</div>
+      </div>
+      <div class="testimonial-card">
+  <p>"The branding strategy they created gave our company a completely fresh identity. Every element felt intentional, modern and perfectly aligned with our vision."</p>
+        <div class="testimonial-author">- Amritha, CTO of Vimeni</div>
+      </div>
+      <div class="testimonial-card">
+        <p>"We've worked with many teams before, but none that combined technical mastery and customer insight so effortlessly. The final result redefined what success looked like for us."</p>
+        <div class="testimonial-author">- Krish, Chiper Tech Sol</div>
+      </div>
+
+      <!-- Sequence 2 (duplicate for seamless loop) -->
+      <div class="testimonial-card">
+<p>"Their dedication and commitment throughout the entire process truly stood out. Every detail was handled with care, and the passion they brought to the project made all the difference."</p>        <div class="testimonial-author">- Jasmine, CEO of Hyra Cosmetics </div>
+      </div>
+      <div class="testimonial-card">
+  <p>"Their development team delivered a fast, scalable platform that handled our growing customer base effortlessly. Performance improvements were noticeable immediately."</p>
+        <div class="testimonial-author">- Vijay, CTO of Innovategroup</div>
+      </div>
+      <div class="testimonial-card">
+  <p>"The UI/UX work was exceptional. They simplified a very complex workflow into an experience our users instantly understood and enjoyed using."</p>
+        <div class="testimonial-author">- Saran, Black Flights</div>
+      </div>
+      
+      <!-- Sequence 3 (duplicate for seamless loop) -->
+      <div class="testimonial-card">
+        <p>"From the first call to final delivery, the process was seamless. We now have a brand that truly reflects who we are."</p>
+        <div class="testimonial-author">- Bharathi, M.D Subikshaa Trust</div>
+      </div>
+      <div class="testimonial-card">
+  <p>"The branding strategy they created gave our company a completely fresh identity. Every element felt intentional, modern and perfectly aligned with our vision."</p>
+        <div class="testimonial-author">- Amritha, CTO of Vimeni</div>
+      </div>
+      <div class="testimonial-card">
+        <p>"We've worked with many teams before, but none that combined technical mastery and customer insight so effortlessly. The final result redefined what success looked like for us."</p>
+        <div class="testimonial-author">- Krish, Chiper Tech Sol</div>
+      </div>
+    </div>
+  </div>
+</section>
+    <!-- FAQ -->
+<section id="faq" class="faq">
+    <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+        <p>Find answers to common questions</p>
+    </div>
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question">
+                How long does it take to develop a custom software solution?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                The timeline varies depending on project complexity, typically ranging from 2 to 12 months. We follow Agile methodology for iterative delivery and provide regular updates throughout the development process.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                What is your pricing model?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                We offer flexible pricing models including fixed-price, time-and-materials and subscription-based options. Each project receives a customized quote based on specific requirements and scope.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                Do you provide ongoing support and maintenance?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Yes! We offer comprehensive post-launch support including bug fixes, updates, enhancements, and 24/7 monitoring for critical systems to ensure smooth operations.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                What technologies do you specialize in?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                We specialize in modern technologies including React, Angular, Node.js, Python, Java, AWS, Azure, Google Cloud and emerging tech like AI/ML, blockchain and IoT.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                Can you work with our existing systems?
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Absolutely! We provide seamless integration services to ensure our solutions work perfectly with your existing IT infrastructure and legacy systems.
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <h2>Ready to Transform Your Business?</h2>
+        <p>Let's discuss how we can help drive your business forward with innovative technology solutions</p>
+        <a href="mailto:contact@codematrixz.com" class="cta-button" style="background: var(--black); color: var(--primary-teal);">Contact Us Today</a>
+    </section>
+
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="services.html#software-development">Software Development</a></li>
+                    <li><a href="services.html#web-mobile">Web & Mobile Apps</a></li>
+                    <li><a href="services.html#ai-automation">AI & Automation</a></li>
+                    <li><a href="services.html#cloud-services">Cloud Services</a></li>
+                    <li><a href="services.html#enterprise">Enterprise Solutions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Technologies</h3>
+                <ul>
+                    <li><a href="technologies.html#blockchain">Blockchain</a></li>
+                    <li><a href="technologies.html#iot">IoT Development</a></li>
+                    <li><a href="technologies.html#arvr">AR/VR Solutions</a></li>
+                    <li><a href="technologies.html#computer-vision">Computer Vision</a></li>
+                    <li><a href="technologies.html#machine-learning">Machine Learning</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                
+               <!-- Social Media Icons with Effects -->
+<div class="social-links">
+    <a href="https://www.linkedin.com/in/code-matrixz-3a22983a8/?trk=public-profile-join-page" class="social-icon" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="#" class="social-icon" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61586890630533" class="social-icon" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com/codematrixz/" class="social-icon" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.youtube.com/channel/UCiX7NvRUsSiERo9AUo4g6PQ" class="social-icon" aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
+    </a>
+</div>
+
+
+                <!-- Contact Information with Icons -->
+                <div class="contact-info">
+                    <a href="mailto:info@codematrixz.com" class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <span>info@codematrixz.com</span>
+                    </a>
+                    <a href="tel:+91 7200006850" class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <span>+91 9200006850</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <span>Madurai, TN</span>
+                        <span>Wyoming, USA</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Code Matrixz. All rights reserved. | 
+               <a href="privacy.html" target="_blank">Privacy Policy</a> | 
+               <a href="terms.html" target="_blank">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+   <!-- Chatbot with Custom Professional Avatar - Codissy with Headphones -->
+<div class="chatbot-container">
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <div class="chatbot-avatar-container">
+            <svg width="65" height="65" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Professional Woman Avatar with Headphones -->
+                <!-- Background -->
+                ircle cx="100" cy="100" r="100" fill="#f8f8f9fa"/>
+                
+                <!-- Neck -->
+                <rect x="82" y="128" width="36" height="30" rx="6" fill="#d4a574"/>
+                
+                <!-- Black Professional Top -->
+                <ellipse cx="100" cy="175" rx="68" ry="48" fill="#1a1a1a"/>
+                <path d="M 62 143 Q 76 136 100 136 Q 124 136 138 143 L 142 158 Q 124 148 100 148 Q 76 148 58 158 Z" fill="#1a1a1a"/>
+                
+                <!-- Shoulders -->
+                <path d="M 42 158 Q 52 148 67 148 L 72 178 Q 62 183 47 183 Z" fill="#1a1a1a"/>
+                <path d="M 158 158 Q 148 148 133 148 L 128 178 Q 138 183 153 183 Z" fill="#1a1a1a"/>
+                
+                <!-- Head/Face - Better proportions -->
+                <ellipse cx="100" cy="82" rx="38" ry="44" fill="#d4a574"/>
+                
+                <!-- Hair - Smoother, more natural -->
+                <!-- Base hair shape -->
+                <ellipse cx="100" cy="52" rx="42" ry="38" fill="#2d1f1f"/>
+                
+                <!-- Side hair sections -->
+                <path d="M 58 65 Q 54 78 55 95 L 58 110 Q 60 95 62 78 Q 63 65 60 55 Z" fill="#2d1f1f"/>
+                <path d="M 142 65 Q 146 78 145 95 L 142 110 Q 140 95 138 78 Q 137 65 140 55 Z" fill="#2d1f1f"/>
+                
+                <!-- Top of hair - natural flow -->
+                <path d="M 60 55 Q 72 42 100 40 Q 128 42 140 55 Q 136 60 128 58 Q 115 54 100 54 Q 85 54 72 58 Q 64 60 60 55 Z" fill="#2d1f1f"/>
+                
+                <!-- Hair framing face -->
+                <path d="M 67 68 Q 78 58 100 56 Q 122 58 133 68 Q 128 72 118 70 Q 109 68 100 68 Q 91 68 82 70 Q 72 72 67 68 Z" fill="#2d1f1f"/>
+                
+                <!-- Headphones - Professional Style -->
+                <!-- Left ear cup -->
+                <ellipse cx="58" cy="82" rx="12" ry="16" fill="#404040" stroke="#606060" stroke-width="2"/>
+                <ellipse cx="58" cy="82" rx="8" ry="12" fill="#505050"/>
+                
+                <!-- Right ear cup -->
+                <ellipse cx="142" cy="82" rx="12" ry="16" fill="#404040" stroke="#606060" stroke-width="2"/>
+                <ellipse cx="142" cy="82" rx="8" ry="12" fill="#505050"/>
+                
+                <!-- Headband -->
+                <path d="M 58 66 Q 58 42 100 38 Q 142 42 142 66" stroke="#404040" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <path d="M 58 66 Q 58 42 100 38 Q 142 42 142 66" stroke="#505050" stroke-width="5" fill="none" stroke-linecap="round"/>
+                
+                <!-- Padding on headband -->
+                <ellipse cx="100" cy="42" rx="18" ry="6" fill="#404040" opacity="0.8"/>
+                
+                <!-- Microphone boom -->
+                <path d="M 54 90 L 50 100 L 48 108" stroke="#606060" stroke-width="3" stroke-linecap="round"/>
+                <ellipse cx="48" cy="111" rx="4" ry="6" fill="#505050"/>
+                
+                <!-- Eyebrows - Better shaped -->
+                <path d="M 74 74 Q 82 72 90 74" stroke="#2d1f1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M 110 74 Q 118 72 126 74" stroke="#2d1f1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                
+                <!-- Eyes - More expressive -->
+                <ellipse cx="82" cy="84" rx="4.5" ry="5.5" fill="#2d1f1f"/>
+                <ellipse cx="118" cy="84" rx="4.5" ry="5.5" fill="#2d1f1f"/>
+                ircle cx="83" cy="82.5" r="1.8" fill="#ffffff"f" opacity="0.95"/>
+                ircle cx="119" cy="82.5" r="1.8" fill="#ffffffff" opacity="0.95"/>
+                
+                <!-- Nose - Refined -->
+                <path d="M 100 88 L 98 96" stroke="#c17d5c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <ellipse cx="96" cy="98" rx="2.5" ry="1.8" fill="#c17d5c" opacity="0.5"/>
+                <ellipse cx="104" cy="98" rx="2.5" ry="1.8" fill="#c17d5c" opacity="0.5"/>
+                
+                <!-- Lips - Natural smile -->
+                <path d="M 90 106 Q 100 110 110 106" stroke="#b86f6f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M 90 106 Q 100 108 110 106" fill="#d89090" opacity="0.4"/>
+                
+                <!-- Face contours - subtle -->
+                <ellipse cx="68" cy="90" rx="7" ry="11" fill="#c17d5c" opacity="0.25"/>
+                <ellipse cx="132" cy="90" rx="7" ry="11" fill="#c17d5c" opacity="0.25"/>
+                
+                <!-- Collar detail -->
+                <path d="M 82 143 L 92 152 L 100 148 Z" fill="#2a2a2a"/>
+                <path d="M 118 143 L 108 152 L 100 148 Z" fill="#2a2a2a"/>
+            </svg>
+        </div>
+    </button>
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+            <div class="chatbot-header-title">
+                <div class="chatbot-header-avatar">
+                    <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Same improved avatar -->
+                        ircle cx="100" cy="100" r="100" fill="#f#f8f9fa"/>
+                        <rect x="82" y="128" width="36" height="30" rx="6" fill="#d4a574"/>
+                        <ellipse cx="100" cy="175" rx="68" ry="48" fill="#1a1a1a"/>
+                        <path d="M 62 143 Q 76 136 100 136 Q 124 136 138 143 L 142 158 Q 124 148 100 148 Q 76 148 58 158 Z" fill="#1a1a1a"/>
+                        <path d="M 42 158 Q 52 148 67 148 L 72 178 Q 62 183 47 183 Z" fill="#1a1a1a"/>
+                        <path d="M 158 158 Q 148 148 133 148 L 128 178 Q 138 183 153 183 Z" fill="#1a1a1a"/>
+                        <ellipse cx="100" cy="82" rx="38" ry="44" fill="#d4a574"/>
+                        <ellipse cx="100" cy="52" rx="42" ry="38" fill="#2d1f1f"/>
+                        <path d="M 58 65 Q 54 78 55 95 L 58 110 Q 60 95 62 78 Q 63 65 60 55 Z" fill="#2d1f1f"/>
+                        <path d="M 142 65 Q 146 78 145 95 L 142 110 Q 140 95 138 78 Q 137 65 140 55 Z" fill="#2d1f1f"/>
+                        <path d="M 60 55 Q 72 42 100 40 Q 128 42 140 55 Q 136 60 128 58 Q 115 54 100 54 Q 85 54 72 58 Q 64 60 60 55 Z" fill="#2d1f1f"/>
+                        <path d="M 67 68 Q 78 58 100 56 Q 122 58 133 68 Q 128 72 118 70 Q 109 68 100 68 Q 91 68 82 70 Q 72 72 67 68 Z" fill="#2d1f1f"/>
+                        <ellipse cx="58" cy="82" rx="12" ry="16" fill="#404040" stroke="#606060" stroke-width="2"/>
+                        <ellipse cx="58" cy="82" rx="8" ry="12" fill="#505050"/>
+                        <ellipse cx="142" cy="82" rx="12" ry="16" fill="#404040" stroke="#606060" stroke-width="2"/>
+                        <ellipse cx="142" cy="82" rx="8" ry="12" fill="#505050"/>
+                        <path d="M 58 66 Q 58 42 100 38 Q 142 42 142 66" stroke="#404040" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <path d="M 58 66 Q 58 42 100 38 Q 142 42 142 66" stroke="#505050" stroke-width="5" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="100" cy="42" rx="18" ry="6" fill="#404040" opacity="0.8"/>
+                        <path d="M 54 90 L 50 100 L 48 108" stroke="#606060" stroke-width="3" stroke-linecap="round"/>
+                        <ellipse cx="48" cy="111" rx="4" ry="6" fill="#505050"/>
+                        <path d="M 74 74 Q 82 72 90 74" stroke="#2d1f1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 110 74 Q 118 72 126 74" stroke="#2d1f1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="82" cy="84" rx="4.5" ry="5.5" fill="#2d1f1f"/>
+                        <ellipse cx="118" cy="84" rx="4.5" ry="5.5" fill="#2d1f1f"/>
+                        ircle cx="83" cy="82.5" r="1.8" fill="#ffffff"f" opacity="0.95"/>
+                        ircle cx="119" cy="82.5" r="1.8" fill="#ffffff" opacityty="0.95"/>
+                        <path d="M 100 88 L 98 96" stroke="#c17d5c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="96" cy="98" rx="2.5" ry="1.8" fill="#c17d5c" opacity="0.5"/>
+                        <ellipse cx="104" cy="98" rx="2.5" ry="1.8" fill="#c17d5c" opacity="0.5"/>
+                        <path d="M 90 106 Q 100 110 110 106" stroke="#b86f6f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 90 106 Q 100 108 110 106" fill="#d89090" opacity="0.4"/>
+                        <ellipse cx="68" cy="90" rx="7" ry="11" fill="#c17d5c" opacity="0.25"/>
+                        <ellipse cx="132" cy="90" rx="7" ry="11" fill="#c17d5c" opacity="0.25"/>
+                        <path d="M 82 143 L 92 152 L 100 148 Z" fill="#2a2a2a"/>
+                        <path d="M 118 143 L 108 152 L 100 148 Z" fill="#2a2a2a"/>
+                    </svg>
+                </div>
+                <div class="chatbot-name">
+                    <span class="chatbot-name-text">Codissy</span>
+                    <span class="chatbot-status">
+                        <span class="status-dot"></span>
+                        AI Support Assistant
+                    </span>
+                </div>
+            </div>
+            <button class="chatbot-close" id="chatbotClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot">
+                Hello! 👋 I'm Codissy, your AI support assistant. How can I help you today?
+                <div class="quick-options">
+                    <button class="quick-option" data-query="What services do you provide?">Services</button>
+                    <button class="quick-option" data-query="What technologies do you use?">Technologies</button>
+                    <button class="quick-option" data-query="How do I get started?">Get Started</button>
+                    <button class="quick-option" data-query="How do I get a quote?">Get Quote</button>
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ask Codissy anything...">
+            <button class="chatbot-send" id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Comprehensive Knowledge Base with 100+ Q&As
+        const knowledgeBase = {
+            "questions": [
+              {
+                "question": "What services does your company provide?",
+                "answer": "We offer a wide range of services including software development, IT consulting, cloud solutions, data analytics, AI/ML solutions, cybersecurity, and IT infrastructure management."
+              },
+              {
+                "question": "How do I get a quote for your services?",
+                "answer": "You can get a customized quote by reaching out to our sales team through the contact form on our website or by emailing us directly at sales@codematrixz.com."
+              },
+              {
+                "question": "What industries do you specialize in?",
+                "answer": "We specialize in industries such as finance, healthcare, retail, manufacturing, telecom, and education, providing tailored IT solutions for each sector."
+              },
+              {
+                "question": "Do you offer custom software development?",
+                "answer": "Yes, we provide end-to-end custom software development services, including design, development, testing, and deployment for web, mobile, and enterprise applications."
+              },
+              {
+                "question": "What programming languages and technologies do you use?",
+                "answer": "Our developers are proficient in languages like Java, Python, C#, JavaScript, and PHP, and work with frameworks such as React, Angular, Django, and Node.js. We also leverage cloud platforms like AWS, Azure, and Google Cloud."
+              },
+              {
+                "question": "How can I apply for a job at your company?",
+                "answer": "You can visit our careers page at company.com/careers to view available positions and submit your resume online."
+              },
+              {
+                "question": "Do you provide IT consulting services?",
+                "answer": "Yes, our IT consulting services cover digital transformation, IT strategy, business process automation, and system integration to help optimize your business operations."
+              },
+              {
+                "question": "What is your process for software development?",
+                "answer": "We follow an Agile methodology for software development, including phases like requirement analysis, design, development, testing, deployment, and continuous support."
+              },
+              {
+                "question": "How long does it take to develop a custom software solution?",
+                "answer": "The timeline varies depending on the complexity of the project, but typically, it can take anywhere from 2 to 12 months for custom software development."
+              },
+              {
+                "question": "Do you offer 24/7 support?",
+                "answer": "Yes, we provide round-the-clock support for critical systems, ensuring that your business operations run smoothly at all times."
+              },
+              {
+                "question": "What cloud platforms do you support?",
+                "answer": "We offer cloud migration, development, and management services for platforms like AWS, Microsoft Azure, Google Cloud, and IBM Cloud."
+              },
+              {
+                "question": "What is your approach to cybersecurity?",
+                "answer": "We employ a multi-layered approach to cybersecurity, including encryption, firewalls, vulnerability assessments, penetration testing, and compliance with industry standards like GDPR, HIPAA, and PCI DSS."
+              },
+              {
+                "question": "What kind of data analytics services do you offer?",
+                "answer": "Our data analytics services include data integration, business intelligence (BI), predictive analytics, and big data solutions using tools like Power BI, Tableau, and Hadoop."
+              },
+              {
+                "question": "Do you provide AI and Machine Learning services?",
+                "answer": "Yes, we specialize in developing AI-powered solutions, including natural language processing (NLP), computer vision, recommendation systems, and predictive analytics."
+              },
+              {
+                "question": "How do you ensure the quality of the software you develop?",
+                "answer": "We follow industry best practices for software testing, including unit testing, integration testing, and automated testing. We also conduct user acceptance testing (UAT) to ensure the software meets client expectations."
+              },
+              {
+                "question": "What is the pricing model for your services?",
+                "answer": "We offer flexible pricing models, including fixed-price, time-and-materials, and subscription-based pricing depending on the nature of the project."
+              },
+              {
+                "question": "Do you offer any training for your software solutions?",
+                "answer": "Yes, we provide training sessions and documentation for our software solutions to ensure your team is fully equipped to use the tools efficiently."
+              },
+              {
+                "question": "Can you integrate your solutions with our existing systems?",
+                "answer": "Yes, we provide integration services to ensure that our solutions work seamlessly with your existing IT infrastructure and software systems."
+              },
+              {
+                "question": "How do I track the progress of my project?",
+                "answer": "We provide regular updates through project management tools like Jira, Trello, or Asana, and we have weekly or bi-weekly meetings to discuss progress."
+              },
+              {
+                "question": "What happens if my project experiences delays?",
+                "answer": "We communicate proactively about any delays, identify the root cause, and work with you to adjust timelines or find solutions to mitigate any impacts."
+              },
+              {
+                "question": "How do you handle data privacy and compliance?",
+                "answer": "We follow strict data protection policies and comply with global standards such as GDPR, CCPA, and HIPAA to ensure your data remains private and secure."
+              },
+              {
+                "question": "Can you help with digital transformation?",
+                "answer": "Absolutely! We help businesses undergo digital transformation by optimizing their existing processes, implementing modern software solutions, and enhancing customer experiences with technology."
+              },
+              {
+                "question": "Do you work with startups?",
+                "answer": "Yes, we work with startups to provide scalable software solutions that support growth, from MVP development to full-scale product launches."
+              },
+              {
+                "question": "How do I get started with your services?",
+                "answer": "Start by filling out a contact form on our website or reaching out to us via email. A member of our team will get in touch to discuss your project and requirements."
+              },
+              {
+                "question": "What is your support policy after project completion?",
+                "answer": "We provide ongoing maintenance and support for all projects, including bug fixes, updates, and enhancements as part of our post-launch support packages."
+              },
+              {
+                "question": "How do you ensure the security of my data?",
+                "answer": "We implement robust encryption, secure access controls, and regular security audits to protect your data from unauthorized access."
+              },
+              {
+                "question": "What happens if there are any issues with the software after it's launched?",
+                "answer": "If any issues arise post-launch, our team is ready to help through support tickets or emergency assistance, depending on the severity of the issue."
+              },
+              {
+                "question": "Do you offer web and mobile app development?",
+                "answer": "Yes, we offer both web and mobile app development services, using the latest technologies to build scalable, user-friendly applications."
+              },
+              {
+                "question": "Do you provide IT infrastructure management services?",
+                "answer": "Yes, we offer IT infrastructure management, including server setup, network security, cloud infrastructure, and ongoing system monitoring."
+              },
+              {
+                "question": "How do you manage project timelines?",
+                "answer": "We use Agile project management techniques to break down the project into sprints, ensuring continuous progress, and we provide clients with regular status updates to keep things on track."
+              },
+              {
+                "question": "Can you help with digital marketing and SEO?",
+                "answer": "Yes, we provide SEO services, including keyword research, on-page optimization, and link-building to increase your website's search engine ranking and online visibility."
+              },
+              {
+                "question": "Can you build a custom CRM solution for my business?",
+                "answer": "Absolutely! We design and develop custom CRM systems that integrate with your existing processes, making it easier to manage customer relationships, sales, and marketing."
+              },
+              {
+                "question": "How do you handle software scalability?",
+                "answer": "We design our solutions with scalability in mind, using cloud services, microservices architecture, and load balancing to ensure your system can grow with your business needs."
+              },
+              {
+                "question": "Do you provide API integration services?",
+                "answer": "Yes, we specialize in integrating third-party APIs, whether it's for payment processing, customer data management, or other external services to enhance your software's functionality."
+              },
+              {
+                "question": "Can you help me with legacy system upgrades?",
+                "answer": "Yes, we can help modernize and upgrade legacy systems by migrating them to new platforms, ensuring they are more efficient, secure, and compatible with modern technology."
+              },
+              {
+                "question": "What are the benefits of cloud migration?",
+                "answer": "Cloud migration allows businesses to scale more easily, reduce operational costs, and access high-performance infrastructure. It also improves disaster recovery and security."
+              },
+              {
+                "question": "Can you handle my software development if I'm based outside of your region?",
+                "answer": "Yes, we work with clients globally and leverage remote communication tools to ensure smooth collaboration, no matter where you're located."
+              },
+              {
+                "question": "How do you ensure a project stays on track and within budget?",
+                "answer": "We provide clear, upfront estimations and break the project into manageable phases, continuously monitoring progress to avoid delays or unexpected costs."
+              },
+              {
+                "question": "Do you offer training for using new software solutions?",
+                "answer": "Yes, we offer both in-person and remote training to ensure your team can effectively use the new software. We also provide comprehensive user manuals and documentation."
+              },
+              {
+                "question": "What's the difference between your Agile and Waterfall approaches?",
+                "answer": "Agile is iterative and flexible, allowing for ongoing feedback and adjustments throughout the development process. Waterfall is a more structured approach with predefined stages and deliverables."
+              },
+              {
+                "question": "Do you support multi-language and multi-region applications?",
+                "answer": "Yes, we specialize in building internationalized solutions, supporting multiple languages, currencies, and regions to ensure your application works seamlessly across different markets."
+              },
+              {
+                "question": "How do you ensure my project stays within budget?",
+                "answer": "We provide a detailed estimate upfront and maintain transparent communication throughout the project. Any changes or scope additions are discussed and priced accordingly, ensuring you're always aware of the cost impact."
+              },
+              {
+                "question": "Do you provide UX/UI design services?",
+                "answer": "Yes, we offer comprehensive UX/UI design services to create user-friendly, visually appealing interfaces that enhance user experience across web and mobile applications."
+              },
+              {
+                "question": "Can you build an e-commerce platform for my business?",
+                "answer": "Absolutely! We specialize in building scalable and secure e-commerce platforms, integrating payment gateways, inventory management systems, and customer relationship management (CRM) features."
+              },
+              {
+                "question": "Do you offer SEO services?",
+                "answer": "Yes, we provide search engine optimization (SEO) services to help improve your website's visibility, driving more organic traffic and increasing your online presence."
+              },
+              {
+                "question": "What happens if my company needs an emergency tech solution?",
+                "answer": "We offer rapid response support for urgent issues. Our team is available 24/7 to address critical issues, minimize downtime, and provide immediate fixes."
+              },
+              {
+                "question": "Can you handle data migration for my business?",
+                "answer": "Yes, we specialize in data migration, ensuring a smooth transition of your data from legacy systems to modern platforms while maintaining data integrity and minimizing downtime."
+              },
+              {
+                "question": "Do you provide business intelligence (BI) solutions?",
+                "answer": "Yes, we offer business intelligence solutions using platforms like Power BI, Tableau, and custom BI dashboards to help you make data-driven decisions by providing actionable insights."
+              },
+              {
+                "question": "How do you ensure the performance of your software solutions?",
+                "answer": "We conduct load testing, performance tuning, and continuous monitoring to ensure that our solutions perform optimally even during high traffic or peak usage periods."
+              },
+              {
+                "question": "Do you offer IT support and maintenance after the software is launched?",
+                "answer": "Yes, we provide ongoing support and maintenance services, including bug fixes, updates, and system enhancements to ensure your software runs smoothly post-launch."
+              },
+              {
+                "question": "Do you offer enterprise software solutions?",
+                "answer": "Yes, we provide scalable enterprise software solutions, including ERP systems, CRM platforms, and custom business applications designed to streamline operations and improve efficiency."
+              },
+              {
+                "question": "Can you help us migrate our systems to the cloud?",
+                "answer": "Absolutely! We specialize in cloud migration, whether you're moving from on-premise systems or transitioning between cloud providers. We ensure the process is smooth, secure, and efficient."
+              },
+              {
+                "question": "Do you work with legacy software systems?",
+                "answer": "Yes, we help businesses modernize legacy systems, providing support, upgrades, and migrations to newer platforms to improve performance and scalability."
+              },
+              {
+                "question": "How do you handle change management during a project?",
+                "answer": "We work closely with your team to manage any changes to project scope, timelines, or resources, ensuring there's minimal disruption and clear communication at all stages."
+              },
+              {
+                "question": "Can you build a solution for remote teams?",
+                "answer": "Yes, we can build custom software solutions that facilitate collaboration, project management, and communication for remote teams, ensuring productivity and efficiency no matter where your team members are."
+              },
+              {
+                "question": "What makes your company different from other IT service providers?",
+                "answer": "Our focus on personalized solutions, strong client relationships, and deep expertise in both software development and IT consulting sets us apart. We strive to provide long-term value rather than just one-off services."
+              },
+              {
+                "question": "Can you help us improve our website's performance and user experience?",
+                "answer": "Absolutely! We offer website optimization services, including improving load times, responsiveness, and user experience design, to ensure your site performs at its best."
+              },
+              {
+                "question": "Do you offer cloud security services?",
+                "answer": "Yes, we offer comprehensive cloud security services, including data encryption, access management, threat monitoring, and compliance with global security standards like GDPR and HIPAA."
+              },
+              {
+                "question": "How do you ensure software accessibility for users with disabilities?",
+                "answer": "We follow WCAG (Web Content Accessibility Guidelines) to ensure that the software we develop is accessible to all users, including those with disabilities. This includes making interfaces screen-reader-friendly and ensuring keyboard navigation."
+              },
+              {
+                "question": "Can you help integrate our software with third-party services?",
+                "answer": "Yes, we have experience integrating various third-party services such as payment processors, CRMs, marketing tools, and more, to ensure your systems work seamlessly together."
+              },
+              {
+                "question": "Do you provide testing services for software solutions?",
+                "answer": "Yes, we offer a comprehensive range of testing services, including functional testing, performance testing, security testing, and automated testing to ensure the highest quality standards."
+              },
+              {
+                "question": "How do you handle project scope changes?",
+                "answer": "We handle scope changes by reviewing the impact on timelines and costs, adjusting the project plan, and discussing the best approach with our clients to ensure alignment."
+              },
+              {
+                "question": "Can you help with the maintenance of an existing application?",
+                "answer": "Yes, we offer ongoing maintenance services, including bug fixes, performance enhancements, and feature updates, to ensure your application remains reliable and up-to-date."
+              },
+              {
+                "question": "What is your process for handling client feedback during a project?",
+                "answer": "We encourage open communication throughout the project and welcome client feedback at every stage. We use feedback to refine and improve the product to meet your exact needs."
+              },
+              {
+                "question": "Can you help us implement business automation?",
+                "answer": "Yes, we help businesses automate repetitive tasks such as data entry, customer support, invoicing, and more, using technologies like RPA (Robotic Process Automation) and AI-driven solutions."
+              },
+              {
+                "question": "Do you offer SaaS development services?",
+                "answer": "Yes, we specialize in developing SaaS (Software as a Service) solutions, providing end-to-end services from design to deployment, ensuring your product is scalable and secure."
+              },
+              {
+                "question": "How do you manage project communication?",
+                "answer": "We prioritize clear and consistent communication, using tools like Slack, Microsoft Teams, or email to keep you updated throughout the project. Regular check-ins and meetings ensure that everyone is aligned."
+              },
+              {
+                "question": "Can you help us with data visualization?",
+                "answer": "Yes, we specialize in creating intuitive and insightful data visualizations using tools like Power BI, Tableau, and custom dashboards, helping you make data-driven decisions."
+              },
+              {
+                "question": "Do you work with open-source software solutions?",
+                "answer": "Yes, we work with open-source technologies like Linux, MySQL, and WordPress to build cost-effective solutions while still maintaining security and flexibility."
+              },
+              {
+                "question": "Can you help us with regulatory compliance?",
+                "answer": "Yes, we help businesses meet regulatory compliance requirements for industries like healthcare, finance, and e-commerce, ensuring you follow data protection, financial, and security regulations."
+              },
+              {
+                "question": "How do you manage risk during a project?",
+                "answer": "We identify potential risks early in the project, create mitigation plans, and continuously monitor the project for any emerging issues. We keep you informed and adjust the approach if needed."
+              },
+              {
+                "question": "Do you provide product design services?",
+                "answer": "Yes, we offer end-to-end product design services, including ideation, prototyping, wireframing, and UI/UX design to ensure your product is visually appealing and user-friendly."
+              },
+              {
+                "question": "Do you offer support for mobile app development?",
+                "answer": "Yes, we specialize in mobile app development for both iOS and Android, ensuring a smooth user experience, great performance, and seamless integration with back-end systems."
+              },
+              {
+                "question": "How do you handle project documentation?",
+                "answer": "We ensure thorough documentation throughout the project lifecycle, including detailed requirements, design documents, test cases, and user manuals, so you can refer back to everything when needed."
+              },
+              {
+                "question": "Do you offer DevOps services?",
+                "answer": "Yes, we offer DevOps services to streamline your development and deployment processes, using CI/CD (Continuous Integration/Continuous Deployment) practices and automating key workflows."
+              },
+              {
+                "question": "Do you provide custom software development services?",
+                "answer": "Yes, we specialize in custom software development tailored to your business needs. Whether it's a desktop application, mobile app, or enterprise-level solution, we can create something that fits your exact requirements."
+              },
+              {
+                "question": "Can you build software for a niche industry?",
+                "answer": "Yes, we have experience developing software for a wide range of industries, including healthcare, finance, retail, and education. Our team can design custom solutions that meet the unique needs of your industry."
+              },
+              {
+                "question": "Do you offer maintenance and support for third-party applications?",
+                "answer": "Yes, we provide ongoing maintenance and support for third-party applications. Whether it's fixing bugs, upgrading features, or improving performance, we've got you covered."
+              },
+              {
+                "question": "What is your process for delivering a software project?",
+                "answer": "We follow a structured approach, including discovery and planning, design and prototyping, development, testing, and deployment. We work with you closely at every step to ensure the project meets your expectations."
+              },
+              {
+                "question": "Can you assist with data analytics and reporting?",
+                "answer": "Yes, we provide data analytics and reporting services that can help you gain insights from your data, including custom dashboards, business intelligence solutions, and reporting tools."
+              },
+              {
+                "question": "How do you ensure software quality assurance?",
+                "answer": "We use a combination of manual and automated testing to ensure your software meets the highest standards. Our QA team performs functional, performance, and security tests to ensure reliability and user satisfaction."
+              },
+              {
+                "question": "Can you integrate AI into our existing system?",
+                "answer": "Yes, we can integrate AI features such as chatbots, predictive analytics, and machine learning models into your existing system, enhancing its capabilities and providing better insights."
+              },
+              {
+                "question": "How do you ensure the scalability of your solutions?",
+                "answer": "We design software with scalability in mind, utilizing cloud infrastructure, microservices, and modular architecture to ensure your solution can handle increasing loads without performance degradation."
+              },
+              {
+                "question": "What is your approach to software development methodology?",
+                "answer": "We use Agile methodology to deliver iterative and incremental development, allowing for flexibility and faster delivery. However, we also adapt to the needs of your project and can apply other methodologies like Waterfall when appropriate."
+              },
+              {
+                "question": "Can you help with UI/UX redesign for an existing product?",
+                "answer": "Yes, we can help redesign the UI/UX of an existing product to make it more intuitive, user-friendly, and visually appealing. We focus on enhancing user experience through user research and iterative design."
+              },
+              {
+                "question": "Do you offer cross-platform app development?",
+                "answer": "Yes, we specialize in building cross-platform applications that work seamlessly on both iOS and Android, using frameworks like React Native, Flutter, or Xamarin to save time and costs while maintaining high-quality performance."
+              },
+              {
+                "question": "How do you handle client confidentiality and intellectual property?",
+                "answer": "We prioritize client confidentiality and ensure all project details are protected under strict non-disclosure agreements (NDAs). Your intellectual property rights remain with you, and we handle all proprietary data with the utmost care."
+              },
+              {
+                "question": "What technology stacks do you work with?",
+                "answer": "We work with a wide range of technologies, including Java, Python, JavaScript, React, Angular, Node.js, Ruby on Rails, and more. We choose the right technology stack based on your project's specific needs."
+              },
+              {
+                "question": "Do you offer managed IT services?",
+                "answer": "Yes, we offer managed IT services, including network monitoring, IT infrastructure management, cloud services, and helpdesk support to ensure your systems run smoothly and efficiently."
+              },
+              {
+                "question": "What is your approach to user testing?",
+                "answer": "We conduct comprehensive user testing, including usability testing, A/B testing, and focus group sessions, to ensure the software is intuitive and meets user needs before release."
+              },
+              {
+                "question": "Do you offer software as a service (SaaS) development?",
+                "answer": "Yes, we specialize in developing SaaS solutions, from subscription-based platforms to multi-tenant architectures, ensuring scalability, security, and easy management."
+              },
+              {
+                "question": "How do you handle project risks and challenges?",
+                "answer": "We proactively identify and assess risks early in the project, creating mitigation strategies to address any issues before they become problems. Regular updates and flexible plans help ensure the project stays on track."
+              },
+              {
+                "question": "Can you help us optimize our existing application?",
+                "answer": "Yes, we can optimize your application for better performance, security, and user experience, including code refactoring, speed optimization, and improved architecture."
+              },
+              {
+                "question": "What happens if my software solution needs updates or new features after it's deployed?",
+                "answer": "We provide ongoing support and development services, including feature additions, updates, and bug fixes, so your software continues to evolve and meet your business needs."
+              },
+              {
+                "question": "Can you help us integrate blockchain technology into our solutions?",
+                "answer": "Yes, we can integrate blockchain technology to enhance security, transparency, and decentralization in your applications, whether for supply chain management, payments, or digital contracts."
+              },
+              {
+                "question": "How do you handle customer feedback and improve your solutions?",
+                "answer": "We actively seek and incorporate customer feedback throughout the development process to ensure that the final product aligns with your needs. We also conduct post-launch reviews and iterate based on user feedback."
+              },
+              {
+                "question": "Do you offer full-stack development?",
+                "answer": "Yes, we offer full-stack development, covering both front-end and back-end technologies, to build complete web and mobile applications."
+              },
+              {
+                "question": "Can you help us with cloud-native development?",
+                "answer": "Yes, we specialize in cloud-native development, creating applications designed to fully utilize cloud environments, offering better scalability, resilience, and efficiency."
+              },
+              {
+                "question": "Do you offer consultation services for digital transformation?",
+                "answer": "Yes, we provide digital transformation consulting, helping businesses adopt new technologies and optimize their processes to remain competitive in the digital age."
+              },
+              {
+                "question": "How do you ensure customer satisfaction throughout the project?",
+                "answer": "We prioritize clear communication, regular updates, and flexibility to ensure that we meet your expectations. We aim to be responsive to any concerns and work collaboratively to deliver a solution that exceeds your requirements."
+              }
+            ]
+          }
+          
+
+        // Advanced search function with fuzzy matching
+        function findBestAnswer(userQuery) {
+            userQuery = userQuery.toLowerCase().trim();
+            
+            // Direct keyword matching
+            let bestMatch = null;
+            let highestScore = 0;
+
+            knowledgeBase.questions.forEach(qa => {
+                const question = qa.question.toLowerCase();
+                const answer = qa.answer.toLowerCase();
+                
+                // Calculate relevance score
+                let score = 0;
+                
+                // Check if query words are in question or answer
+                const queryWords = userQuery.split(' ').filter(word => word.length > 2);
+                queryWords.forEach(word => {
+                    if (question.includes(word)) score += 3;
+                    if (answer.includes(word)) score += 1;
+                });
+                
+
+                // Boost score for exact phrase matches
+                if (question.includes(userQuery)) score += 10;
+                
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = qa;
+                }
+            });
+
+            // Return best match if score is high enough
+            if (highestScore > 2 && bestMatch) {
+                return bestMatch.answer;
+            }
+
+            // Default response
+            return "I'm here to help! You can ask me about our services, technologies, pricing, project timelines, support, or how to get started. For specific inquiries, feel free to contact our team at info@codematrixz.com or call +91 7200006850.";
+        }
+         // Thank you responses
+    const thankYouResponses = [
+    "You're very welcome! 😊 I'm always here if you need any assistance. Feel free to reach out anytime!",
+    "My pleasure! 🌟 Don't hesitate to ask if you have more questions. I'm here to help!",
+    "You're welcome! 👍 I'm glad I could assist you. Feel free to return whenever you need help!",
+    "Happy to help! ✨ If you have any other questions in the future, I'll be right here!"
+];
+
+function findBestAnswer(userQuery) {
+    userQuery = userQuery.toLowerCase().trim();
+    
+    // Check for thank you messages
+    const thankYouPatterns = ['thank you', 'thanks', 'thank u', 'thx', 'ty', 'appreciate', 'grateful'];
+    if (thankYouPatterns.some(pattern => userQuery.includes(pattern))) {
+        return thankYouResponses[Math.floor(Math.random() * thankYouResponses.length)];
+    }
+    
+    // Check for greetings
+    const greetingPatterns = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'];
+    if (greetingPatterns.some(pattern => userQuery.includes(pattern))) {
+        return "Hello! 👋 Welcome! I'm Codissy, your AI support assistant. Please feel free to ask me about your queries - I'm glad to assist you with any questions you have about our services, technologies, pricing, or anything else!";
+    }
+    
+    let bestMatch = null;
+    let highestScore = 0;
+
+    knowledgeBase.questions.forEach(qa => {
+        const question = qa.question.toLowerCase();
+        const answer = qa.answer.toLowerCase();
+        
+        let score = 0;
+        const queryWords = userQuery.split(' ').filter(word => word.length > 2);
+        queryWords.forEach(word => {
+            if (question.includes(word)) score += 3;
+            if (answer.includes(word)) score += 1;
+        });
+
+        if (question.includes(userQuery)) score += 10;
+        
+        if (score > highestScore) {
+            highestScore = score;
+            bestMatch = qa;
+        }
+    });
+
+    if (highestScore > 2 && bestMatch) {
+        return bestMatch.answer;
+    }
+
+    return "I'm here to help! Please feel free to ask me about your queries - I'm glad to assist you with questions about our services, technologies, pricing, project timelines, or how to get started. You can also contact our team directly at info@codematrixz.com or +91 720006850.";
+}
+ // FAQ Toggle
+ document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        item.classList.toggle('active');
+        answer.classList.toggle('active');
+    });
+});
+
+// ========================================
+// MULTILINGUAL MATRIX + PARTICLES
+// ========================================
+(function() {
+    console.log('🚀 Starting Multilingual Matrix + Particle system...');
+    
+    // ========================================
+    // MULTILINGUAL MATRIX RAIN
+    // ========================================
+    const matrixCanvas = document.getElementById('matrix-canvas');
+    const hero = document.getElementById('hero');
+    
+    if (matrixCanvas && hero) {
+        const matrixCtx = matrixCanvas.getContext('2d');
+        
+        matrixCanvas.width = hero.offsetWidth;
+        matrixCanvas.height = hero.offsetHeight;
+        
+        // Multilingual character set
+        const chars = 
+            '01<>{}[]()=+-*/&^%$#@!~`|\\:;"\'.,' +
+            'CODEMATRIXZABCDEFGHIJKLMNOPQRSTUVWXYZabcdefCODEMATRIXZz' +
+            '77702221238884445556667888999777222555111888999' +
+            'コードマトリックスzアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンコードマトリックスz' +
+            'கோட்மேட்ரிக்ஸ்zஅஆஇஈஉஊஎஏஐஒஓஔகஙசஜஞடணதநபமயரலவழளறனஃகோட்மேட்ரிக்ஸ்z' +
+            'кодематриксзАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюякодематриксз' +
+            'ÄÖÜẞäöüß' +
+            '电脑代码数据网络系统程序软件硬件' +
+            'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' +
+            'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω' +
+            'אבגדהוזחטיכלמנסעפצקרשת' +
+            '가나다라마바사아자차카타파하' +
+            'अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह';
+        
+        const charArray = chars.split('');
+        const fontSize = 14;
+        const columns = Math.floor(matrixCanvas.width / fontSize);
+        const drops = Array(columns).fill(1);
+        
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            matrixCtx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                const opacity = Math.random() * 0.8 + 0.2;
+                
+                matrixCtx.fillStyle = `rgba(20, 184, 166, ${opacity})`;
+                matrixCtx.fillText(char, x, y);
+                
+                if (y > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+        console.log(`✅ Matrix initialized with ${charArray.length} multilingual characters`);
+    }
+    
+    // ========================================
+    // PARTICLE SYSTEM
+    // ========================================
+    const canvas = document.getElementById('hero-canvas');
+    
+    if (!canvas) {
+        console.error('❌ Particle canvas not found');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+    
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 120 };
+    
+    window.addEventListener('mousemove', function(e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+    
+    window.addEventListener('mouseout', function(e) {
+        if (e.clientY <= 0 || e.clientX <= 0 || 
+            e.clientX >= window.innerWidth || 
+            e.clientY >= window.innerHeight) {
+            mouse.x = null;
+            mouse.y = null;
+        }
+    });
+    
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 3 + 2;
+            this.speedX = (Math.random() - 0.5);
+            this.speedY = (Math.random() - 0.5);
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            
+            if (this.x <= this.size || this.x >= canvas.width - this.size) {
+                this.speedX *= -1;
+            }
+            if (this.y <= this.size || this.y >= canvas.height - this.size) {
+                this.speedY *= -1;
+            }
+            
+            if (mouse.x !== null && mouse.y !== null) {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius && distance > 0) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    this.x -= Math.cos(angle) * force * 10;
+                    this.y -= Math.sin(angle) * force * 10;
+                }
+            }
+        }
+        
+        draw() {
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#14b8a6';
+            ctx.fillStyle = '#14b8a6';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+    
+    function init() {
+        particles = [];
+        const area = canvas.width * canvas.height;
+        let count = Math.floor(area / 10000);
+        count = Math.max(60, Math.min(count, 120));
+        
+        console.log(`🎨 Creating ${count} particles`);
+        
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            ));
+        }
+    }
+    
+    function connect() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 140) {
+                    const opacity = (1 - distance / 140) * 0.5;
+                    ctx.strokeStyle = `rgba(20, 184, 166, ${opacity})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        
+        connect();
+        requestAnimationFrame(animate);
+    }
+    
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (matrixCanvas) {
+                matrixCanvas.width = hero.offsetWidth;
+                matrixCanvas.height = hero.offsetHeight;
+            }
+            canvas.width = hero.offsetWidth;
+            canvas.height = hero.offsetHeight;
+            init();
+        }, 250);
+    });
+    
+    init();
+    animate();
+    
+    console.log('✅ Matrix + Particles running!');
+})();
+
+// ========================================
+// SMOOTH STORY SCROLL WITH INTERPOLATION
+// ========================================
+(function() {
+    'use strict';
+    
+    const storySection = document.querySelector('.story-section');
+    if (!storySection) {
+        console.warn('⚠️ Story section not found');
+        return;
+    }
+
+    const storyImages = document.querySelectorAll('.story-image');
+    const storyContents = document.querySelectorAll('.story-content');
+    const totalStories = 12;
+
+    if (storyImages.length === 0 || storyContents.length === 0) {
+        console.warn('⚠️ No story content found');
+        return;
+    }
+
+    let currentStory = -1;
+    let targetStory = 0;
+    let ticking = false;
+
+    // Smooth interpolation between stories
+    let interpolationProgress = 0;
+    const interpolationSpeed = 0.1; // Lower = smoother but slower
+
+    function updateStory() {
+        const rect = storySection.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Check if section is in viewport
+        if (rect.top > viewportHeight || rect.bottom < 0) {
+            return;
+        }
+
+        const sectionHeight = storySection.offsetHeight;
+        const scrolledInSection = Math.max(0, -rect.top);
+        
+        // Calculate progress with buffer zones for smoother transitions
+        const effectiveProgress = scrolledInSection / (sectionHeight - viewportHeight);
+        const clampedProgress = Math.max(0, Math.min(1, effectiveProgress));
+        
+        // Calculate target story with smoother distribution
+        const storyProgress = clampedProgress * totalStories;
+        targetStory = Math.min(Math.floor(storyProgress), totalStories - 1);
+
+        // Add buffer zone - only change when we're 15% into the next story
+        const storyFraction = storyProgress - targetStory;
+        if (storyFraction < 0.15 && targetStory > 0) {
+            targetStory = targetStory - 1;
+        }
+
+        // Only update if story has changed
+        if (targetStory !== currentStory) {
+            currentStory = targetStory;
+            
+            requestAnimationFrame(() => {
+                // Update images with fade effect
+                storyImages.forEach((img, index) => {
+                    if (index === currentStory) {
+                        img.classList.add('active');
+                    } else {
+                        img.classList.remove('active');
+                    }
+                });
+
+                // Update content with fade effect
+                storyContents.forEach((content, index) => {
+                    if (index === currentStory) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        }
+    }
+
+    // Throttled scroll handler
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateStory();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    // Passive scroll listener for better performance
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Initial update
+    updateStory();
+    
+    console.log(`✅ Smooth story scroll initialized with ${totalStories} stories`);
+})();
+
+
+
+        // Cursor Glow Effect
+        const cursorGlow = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // Card Glow Effect - Track mouse position on cards
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', x + '%');
+                card.style.setProperty('--mouse-y', y + '%');
+            });
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.stat-item, .service-card, .testimonial-card, .section-header').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter Animation for Stats
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 4.1 ? 'M' : target === 98 ? '%' : '+');
+                    clearInterval(timer);
+                } else {
+                    if (target === 4.1) {
+                        element.textContent = current.toFixed(1) + 'M';
+                    } else if (target === 98) {
+                        element.textContent = Math.floor(current) + '%';
+                    } else {
+                        element.textContent = Math.floor(current) + '+';
+                    }
+                }
+            }, 16);
+        }
+
+        // Trigger counter animation when stats are visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const target = parseFloat(statNumber.getAttribute('data-target'));
+                    animateCounter(statNumber, target);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-item').forEach(item => {
+            statsObserver.observe(item);
+        });
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll to Top Button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Chatbot Functionality
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSend = document.getElementById('chatbotSend');
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = message;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing-indicator';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatbotMessages.appendChild(typingDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        function handleUserMessage(message) {
+            if (!message.trim()) return;
+            
+            addMessage(message, true);
+            chatbotInput.value = '';
+            
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = findBestAnswer(message);
+                addMessage(response);
+            }, 1000);
+        }
+
+        // Event Listeners
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('active');
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+
+        chatbotSend.addEventListener('click', () => {
+            handleUserMessage(chatbotInput.value);
+        });
+
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage(chatbotInput.value);
+            }
+        });
+
+        // Quick Options
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-option')) {
+                const query = e.target.getAttribute('data-query');
+                handleUserMessage(query);
+            }
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Parallax Effect for Background Images
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero, .stats, .testimonials, .cta-section');
+            
+            parallaxElements.forEach((element) => {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.backgroundPosition = `center ${yPos}px`;
+            });
+        });
+
+    // Smooth scroll for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // Ignore empty anchors
+        if (!href || href === '#') return;
+        
+        e.preventDefault();
+        const target = document.querySelector(href);
+        
+        if (target) {
+            const offsetTop = target.offsetTop - 80; // Account for fixed header
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+     src="mobile-menu.js"
+});
+           
+    </script>
+     <!-- Your existing content -->
+    
+    <!-- ADD THIS BEFORE closing </body> 
+    <script src="mobile-menu.js"></script>
+
+</body>
+</html>

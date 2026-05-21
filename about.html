@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - TechSolutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; }
+        
+        .about-header {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070') center/cover;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+        .back-button {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: var(--primary-teal);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        .about-header h1 { font-family: 'Poppins', sans-serif; font-size: 4rem; color: var(--primary-teal); margin-bottom: 1rem; }
+        .about-header p { font-size: 1.3rem; color: var(--light-gray); max-width: 700px; margin: 0 auto; }
+        
+        .about-content { max-width: 1200px; margin: 4rem auto; padding: 2rem; }
+        .about-section { margin-bottom: 5rem; }
+        .about-section h2 { font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--primary-teal); margin-bottom: 1.5rem; }
+        .about-section p { font-size: 1.1rem; color: var(--light-gray); line-height: 1.8; margin-bottom: 1rem; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin: 3rem 0; }
+        .stat-box { text-align: center; padding: 2rem; background: var(--medium-gray); border-radius: 15px; }
+        .stat-box .number { font-size: 3rem; font-weight: 800; color: var(--primary-teal); }
+        .stat-box p { color: var(--light-gray); margin-top: 0.5rem; }
+        
+        .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0; }
+        .value-card { padding: 2rem; background: var(--medium-gray); border-radius: 15px; text-align: center; }
+        .value-card i { font-size: 3rem; color: var(--primary-teal); margin-bottom: 1rem; }
+        .value-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin: 3rem 0; }
+        .team-member { text-align: center; }
+        .team-member img { width: 100%; border-radius: 15px; margin-bottom: 1rem; }
+        .team-member h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .team-member p { color: var(--primary-teal); font-size: 0.9rem; }
+        
+        @media (max-width: 768px) {
+            .about-header h1 { font-size: 2.5rem; }
+            .stats-grid, .values-grid, .team-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="about-header">
+        <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
+        <h1>About Code Matrixz</h1>
+        <p>Transforming businesses through innovative technology solutions</p>
+    </div>
+
+    <div class="about-content">
+        <div class="about-section">
+            <h2>Our Story</h2>
+            <p> Code Matrixz emerged from a simple vision to empower businesses with cutting-edge technology that delivers tangible, real-world results, evolved into something far greater. What started with a small team of passionate developers has grown into a globally recognized technology partner, trusted by both Fortune 500 companies and innovative startups alike.</p>
+            <p>Over the past decade, we have established ourselves as leaders in the tech industry, delivering 500+ successful projects across 25 countries. Each project reflects our unwavering commitment to helping organizations leverage the latest technologies to not only stay ahead of the competition but to redefine their industry standards. Our work has empowered businesses to transform their digital capabilities and unlock unprecedented growth by improving operational efficiency, customer experience and overall performance.</p>
+            <p>Through our deep technical expertise, dedicated team and customer-first approach, we’ve been able to bridge the gap between technology and business success. Whether guiding a large-scale digital transformation or collaborating with agile startups to bring bold new ideas to life, our mission has remained the same, to deliver innovative solutions that have a lasting, meaningful impact on our clients' businesses and help them thrive in an ever-evolving technological landscape.</p>
+
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box"><div class="number">500+</div><p>Projects Delivered</p></div>
+            <div class="stat-box"><div class="number">200+</div><p>Happy Clients</p></div>
+            <div class="stat-box"><div class="number">35+</div><p>Team Members</p></div>
+            <div class="stat-box"><div class="number">25</div><p>Countries Served</p></div>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>Our Mission is to empower organizations around the world by delivering innovative technology solutions that are designed to drive digital transformation. By leveraging the power of cutting-edge tools, systems and strategies, we aim to help businesses not only optimize their operations but also enhance their efficiency and adaptability in a rapidly changing digital world.
+        </div>
+
+        <div class="about-section">
+            <h2>Our approach</h2>
+            <p>Our approach goes beyond just solving today’s problems, we are committed to creating long-term sustainable competitive advantages for our clients. As technology continues to evolve at an unprecedented pace, we guide organizations through this complex landscape, enabling them to stay ahead of the curve and thrive in an environment marked by continuous change and disruption.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Innovation</h3>
+                    <p>Pushing boundaries with creative solutions</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Integrity</h3>
+                    <p>Building trust through transparency</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Excellence</h3>
+                    <p>Delivering quality in everything we do</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Leadership Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Karuna Sagar</h4>
+                    <p>CEO & Founder</p>
+                </div>
+                <div class="team-member">
+                    <h4>Vishali</h4>
+                    <p>Chief Technology Officer</p>
+                </div>
+                <div class="team-member">
+                    <h4>Meenu</h4>
+                    <p>Chief Operating Officer</p>
+                </div>
+                <div class="team-member">
+                    <h4>Karthikeyan</h4>
+                    <p>Chief Marketing Officer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

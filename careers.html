@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - TechSolutions</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --dark-teal: #0d9488;
+            --light-teal: #5eead4;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .careers-header {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070') center/cover;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: var(--primary-teal);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .careers-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .careers-header p {
+            font-size: 1.3rem;
+            color: var(--light-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .careers-container {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 2rem;
+        }
+
+        .benefits-section {
+            margin-bottom: 5rem;
+        }
+
+        .benefits-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--primary-teal);
+            margin-bottom: 3rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: var(--medium-gray);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
+        }
+
+        .benefit-card i {
+            font-size: 3rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card p {
+            color: var(--light-gray);
+            line-height: 1.7;
+        }
+
+        .openings-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--primary-teal);
+            margin-bottom: 3rem;
+        }
+
+        .job-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--medium-gray);
+            border: 1px solid var(--primary-teal);
+            color: var(--white);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-teal);
+            color: var(--black);
+        }
+
+        .jobs-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .job-card {
+            background: var(--medium-gray);
+            padding: 2.5rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: all 0.3s;
+        }
+
+        .job-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+        }
+
+        .job-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        .job-meta i {
+            color: var(--primary-teal);
+        }
+
+        .job-description {
+            color: var(--light-gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .job-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid var(--primary-teal);
+            color: var(--primary-teal);
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .apply-btn {
+            padding: 1rem 2rem;
+            background: var(--primary-teal);
+            color: var(--black);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .careers-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .job-card {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .apply-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="careers-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1>Join Our Team</h1>
+        <p>Build the future of technology with us. We're looking for talented individuals passionate about innovation.</p>
+    </div>
+
+    <div class="careers-container">
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h2>Why Work With Us?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Innovative Projects</h3>
+                    <p>Work on cutting-edge technology that impacts millions of users worldwide</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Collaborative Culture</h3>
+                    <p>Join a diverse team of talented professionals who value teamwork</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Career Growth</h3>
+                    <p>Continuous learning opportunities and clear career progression paths</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-home"></i>
+                    <h3>Flexible Work</h3>
+                    <p>Hybrid work options with competitive compensation and benefits</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Health & Wellness</h3>
+                    <p>Comprehensive health insurance and wellness programs</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-plane"></i>
+                    <h3>Work-Life Balance</h3>
+                    <p>Generous PTO, paid holidays and flexible scheduling</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Openings -->
+        <div class="openings-section">
+            <h2>Open Positions</h2>
+            
+            <div class="job-filters">
+                <button class="filter-btn active">All Positions</button>
+                <button class="filter-btn">Engineering</button>
+                <button class="filter-btn">Design</button>
+                <button class="filter-btn">Product</button>
+                <button class="filter-btn">Sales</button>
+            </div>
+
+            <div class="jobs-grid">
+                <!-- Job 1 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Senior Full-Stack Developer</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Madurai, TN / Remote</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 2 days ago</span>
+                        </div>
+                        <p class="job-description">
+                            We're seeking an experienced full-stack developer to build scalable web applications. You'll work with React, Node.js, and cloud technologies to deliver innovative solutions.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">React</span>
+                            <span class="job-tag">Node.js</span>
+                            <span class="job-tag">AWS</span>
+                            <span class="job-tag">5+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>AI/ML Engineer</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 5 days ago</span>
+                        </div>
+                        <p class="job-description">
+                            Join our AI team to develop machine learning models and deploy intelligent solutions. Experience with Python, TensorFlow, and deep learning required.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">Python</span>
+                            <span class="job-tag">TensorFlow</span>
+                            <span class="job-tag">ML</span>
+                            <span class="job-tag">AI/DS</span>
+                            <span class="job-tag">3+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>UI/UX Designer</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Madurai, TN / Hybrid</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 1 week ago</span>
+                        </div>
+                        <p class="job-description">
+                            Create beautiful, user-centered designs for web and mobile applications. Proficiency in Figma, user research, and prototyping essential.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">Figma</span>
+                            <span class="job-tag">Framer</span>
+                            <span class="job-tag">User Research</span>
+                            <span class="job-tag">Prototyping</span>
+                            <span class="job-tag">2+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>DevOps Engineer</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Madurai, TN / Remote</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 3 days ago</span>
+                        </div>
+                        <p class="job-description">
+                            Build and maintain CI/CD pipelines, manage cloud infrastructure, and ensure system reliability. Kubernetes and AWS expertise required.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">Kubernetes</span>
+                            <span class="job-tag">AWS</span>
+                            <span class="job-tag">CI/CD</span>
+                            <span class="job-tag">3+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Product Manager</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Madurai, TN</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 1 week ago</span>
+                        </div>
+                        <p class="job-description">
+                            Lead product strategy and execution for our enterprise software suite. Strong technical background and stakeholder management skills required.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">Product Strategy</span>
+                            <span class="job-tag">Agile</span>
+                            <span class="job-tag">B2B SaaS</span>
+                            <span class="job-tag">5+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+
+                <!-- Job 6 -->
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Cybersecurity Specialist</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                            <span><i class="fas fa-briefcase"></i> Full-Time</span>
+                            <span><i class="fas fa-clock"></i> Posted 4 days ago</span>
+                        </div>
+                        <p class="job-description">
+                            Protect our infrastructure and applications from threats. Experience with penetration testing, security audits, and compliance required.
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">Security</span>
+                            <span class="job-tag">Penetration Testing</span>
+                            <span class="job-tag">Compliance</span>
+                            <span class="job-tag">4+ years exp</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="apply-btn">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

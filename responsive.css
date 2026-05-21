@@ -1,0 +1,76 @@
+/* ========================================
+   RESPONSIVE.CSS - START
+======================================== */
+
+/* FORCE HIDE on Desktop - Add at the very top */
+.mobile-menu-btn {
+    display: none !important; /* Force hide on desktop */
+}
+
+/* Desktop Navigation - Always visible */
+.nav-links {
+    display: flex !important; /* Force show on desktop */
+    position: static !important;
+    flex-direction: row !important;
+    background: transparent !important;
+    padding: 0 !important;
+    width: auto !important;
+}
+
+/* ========================================
+   TABLET - 768px to 1023px
+======================================== */
+@media (max-width: 1023px) {
+    /* NOW show mobile button */
+    .mobile-menu-btn {
+        display: block !important;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    
+    /* Hide navigation */
+    .nav-links {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Show when active */
+    .nav-links.active {
+        display: flex !important;
+    }
+    
+    /* Stack navigation items */
+    .nav-links li {
+        width: 100%;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 0.8rem 0;
+    }
+    
+    /* Hide dropdowns on mobile - show as regular links */
+    .dropdown-content {
+        position: static;
+        display: block;
+        background: transparent;
+        box-shadow: none;
+        padding-left: 1rem;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Continue with other mobile styles... */

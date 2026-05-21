@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - TechSolutions</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --dark-teal: #0d9488;
+            --light-teal: #5eead4;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .services-header {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072') center/cover;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-teal);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .services-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .services-header p {
+            font-size: 1.3rem;
+            color: var(--light-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Services Container */
+        .services-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Service Section */
+        .service-section {
+            margin-bottom: 8rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .service-section:nth-child(even) {
+            direction: rtl;
+        }
+
+        .service-section:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .service-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .service-content p {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .service-features {
+            margin: 2rem 0;
+        }
+
+        .service-features h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .service-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--light-gray);
+        }
+
+        .service-features li i {
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--medium-gray);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.2);
+        }
+
+        .process-step .step-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(20, 184, 166, 0.3);
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-teal);
+            color: var(--black);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .services-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .service-section {
+                grid-template-columns: 1fr;
+            }
+
+            .service-section:nth-child(even) {
+                direction: ltr;
+            }
+
+            .service-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="services-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1>Our Services</h1>
+        <p>Comprehensive IT solutions designed to accelerate your business growth and digital transformation</p>
+    </div>
+
+    <!-- Services Content -->
+    <div class="services-page">
+        
+        <!-- 1. Software Development -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-laptop-code"></i> Software Development</h2>
+                <p>Transform your business vision into powerful, scalable software solutions. Our expert development team creates custom applications tailored to your specific needs, from concept to deployment.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Custom Enterprise Software Development</li>
+                        <li><i class="fas fa-check-circle"></i> Legacy System Modernization</li>
+                        <li><i class="fas fa-check-circle"></i> API Development & Integration</li>
+                        <li><i class="fas fa-check-circle"></i> Database Design & Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Quality Assurance & Testing</li>
+                        <li><i class="fas fa-check-circle"></i> Ongoing Maintenance & Support</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>How It Works:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <h4>Discovery</h4>
+                            <p>Requirements gathering</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <h4>Design</h4>
+                            <p>Architecture planning</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <h4>Development</h4>
+                            <p>Agile coding</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <h4>Testing</h4>
+                            <p>Quality assurance</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">5</div>
+                            <h4>Deployment</h4>
+                            <p>Launch & support</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Start Your Project <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=2074" alt="Software Development">
+            </div>
+        </div>
+
+        <!-- 2. Web & Mobile Apps -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-mobile-alt"></i> Web & Mobile Apps</h2>
+                <p>Create stunning, responsive applications that deliver exceptional user experiences across all devices. From progressive web apps to native mobile solutions, we build digital experiences that users love.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Progressive Web Applications (PWA)</li>
+                        <li><i class="fas fa-check-circle"></i> Native iOS & Android Development</li>
+                        <li><i class="fas fa-check-circle"></i> Cross-Platform Solutions (React Native, Flutter)</li>
+                        <li><i class="fas fa-check-circle"></i> Responsive Web Design</li>
+                        <li><i class="fas fa-check-circle"></i> E-commerce Platforms</li>
+                        <li><i class="fas fa-check-circle"></i> App Store Optimization & Deployment</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Technologies We Use:</h3>
+                    <p style="margin-top: 1rem;">React, Angular, Vue.js, React Native, Flutter, Swift, Kotlin, Node.js, Python, Ruby on Rails</p>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Build Your App <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070" alt="Web & Mobile Apps">
+            </div>
+        </div>
+
+        <!-- 3. AI & Automation -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-robot"></i> AI & Automation</h2>
+                <p>Harness the power of artificial intelligence and machine learning to automate processes, gain insights, and make smarter decisions. Our AI solutions transform how businesses operate and compete.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Machine Learning Model Development</li>
+                        <li><i class="fas fa-check-circle"></i> Natural Language Processing (NLP)</li>
+                        <li><i class="fas fa-check-circle"></i> Computer Vision & Image Recognition</li>
+                        <li><i class="fas fa-check-circle"></i> Predictive Analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Robotic Process Automation (RPA)</li>
+                        <li><i class="fas fa-check-circle"></i> Chatbots & Virtual Assistants</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Benefits:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">60%</div>
+                            <h4>Cost Reduction</h4>
+                            <p>Automate tasks</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">10x</div>
+                            <h4>Faster Processing</h4>
+                            <p>Speed & accuracy</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">24/7</div>
+                            <h4>Always Available</h4>
+                            <p>Continuous operation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Explore AI Solutions <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070" alt="AI & Automation">
+            </div>
+        </div>
+
+        <!-- 4. Cloud Services -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-cloud"></i> Cloud Services</h2>
+                <p>Migrate to the cloud with confidence. Our cloud experts design, implement, and manage scalable, secure cloud infrastructure that grows with your business needs.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Cloud Migration & Strategy</li>
+                        <li><i class="fas fa-check-circle"></i> AWS, Azure, Google Cloud Solutions</li>
+                        <li><i class="fas fa-check-circle"></i> Serverless Architecture</li>
+                        <li><i class="fas fa-check-circle"></i> Microservices Implementation</li>
+                        <li><i class="fas fa-check-circle"></i> Container Orchestration (Kubernetes)</li>
+                        <li><i class="fas fa-check-circle"></i> Cloud Security & Compliance</li>
+                        <li><i class="fas fa-check-circle"></i> Cost Optimization & Monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Cloud Platforms:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <i class="fab fa-aws" style="font-size: 3rem; color: var(--primary-teal);"></i>
+                            <h4>Amazon AWS</h4>
+                        </div>
+                        <div class="process-step">
+                            <i class="fab fa-microsoft" style="font-size: 3rem; color: var(--primary-teal);"></i>
+                            <h4>Microsoft Azure</h4>
+                        </div>
+                        <div class="process-step">
+                            <i class="fab fa-google" style="font-size: 3rem; color: var(--primary-teal);"></i>
+                            <h4>Google Cloud</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Go Cloud <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070" alt="Cloud Services">
+            </div>
+        </div>
+
+        <!-- 5. Enterprise Solutions -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-building"></i> Enterprise Solutions</h2>
+                <p>Streamline your business operations with custom enterprise software. We build ERP, CRM, and HRM systems that integrate seamlessly with your existing infrastructure.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Enterprise Resource Planning (ERP)</li>
+                        <li><i class="fas fa-check-circle"></i> Customer Relationship Management (CRM)</li>
+                        <li><i class="fas fa-check-circle"></i> Human Resource Management (HRM)</li>
+                        <li><i class="fas fa-check-circle"></i> Supply Chain Management</li>
+                        <li><i class="fas fa-check-circle"></i> Business Intelligence & Analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Document Management Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Workflow Automation</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Industries We Serve:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <i class="fas fa-hospital" style="font-size: 2rem; color: var(--primary-teal);"></i>
+                            <h4>Healthcare</h4>
+                        </div>
+                        <div class="process-step">
+                            <i class="fas fa-shopping-cart" style="font-size: 2rem; color: var(--primary-teal);"></i>
+                            <h4>Retail</h4>
+                        </div>
+                        <div class="process-step">
+                            <i class="fas fa-industry" style="font-size: 2rem; color: var(--primary-teal);"></i>
+                            <h4>Manufacturing</h4>
+                        </div>
+                        <div class="process-step">
+                            <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--primary-teal);"></i>
+                            <h4>Finance</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Transform Your Business <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015" alt="Enterprise Solutions">
+            </div>
+        </div>
+
+          <!-- 6. IoT Solutions -->
+          <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-wifi"></i> IoT Solutions</h2>
+                <p>Connect devices, collect data, and automate processes with smart IoT solutions. We build secure and scalable systems that bring real-time intelligence to your operations.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> IoT System Design & Architecture</li>
+                        <li><i class="fas fa-check-circle"></i> Sensor Integration & Embedded Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Smart Home & Industrial Automation</li>
+                        <li><i class="fas fa-check-circle"></i> Edge Computing Solutions</li>
+                        <li><i class="fas fa-check-circle"></i> IoT Cloud Platforms (AWS IoT, Azure IoT)</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time Monitoring & Dashboards</li>
+                        <li><i class="fas fa-check-circle"></i> Predictive Maintenance Systems</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Key Benefits:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">Real-time</div>
+                            <h4>Data Insights</h4>
+                            <p>Instant analytics</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">99.9%</div>
+                            <h4>Uptime</h4>
+                            <p>Reliability</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">IoT-Ready</div>
+                            <h4>Scalable</h4>
+                            <p>Growth-focused</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Explore IoT <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070" alt="IoT Solutions">
+            </div>
+        </div>
+
+    
+
+        <!-- 7. Data Analyst Services -->
+        <div class="service-section">
+            <div class="service-content">
+                <h2><i class="fas fa-chart-line"></i> Data Analyst Services</h2>
+                <p>Transform raw data into meaningful insights that support smarter business decisions. We help you visualize trends, optimize performance, and unlock the full potential of your data.</p>
+                
+                <div class="service-features">
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Data Cleaning & Preprocessing</li>
+                        <li><i class="fas fa-check-circle"></i> Exploratory Data Analysis (EDA)</li>
+                        <li><i class="fas fa-check-circle"></i> Dashboard & Report Building</li>
+                        <li><i class="fas fa-check-circle"></i> Statistical & Predictive Analysis</li>
+                        <li><i class="fas fa-check-circle"></i> Data Visualization (Power BI, Tableau, etc.)</li>
+                        <li><i class="fas fa-check-circle"></i> Business Performance Metrics</li>
+                        <li><i class="fas fa-check-circle"></i> Data-Driven Strategy Consulting</li>
+                    </ul>
+                </div>
+
+                <div class="service-features">
+                    <h3>Our Approach:</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <h4>Collect</h4>
+                            <p>Gather data</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <h4>Analyze</h4>
+                            <p>Extract patterns</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <h4>Visualize</h4>
+                            <p>Create insights</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <h4>Decide</h4>
+                            <p>Action items</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Get Data Insights <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070" alt="Data Analysis">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

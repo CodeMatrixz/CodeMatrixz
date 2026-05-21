@@ -1,0 +1,7 @@
+# Code Matrixz Website
+# Copyright (c) 2025 Code Matrixz. All Rights Reserved.
+
+User-agent: *
+Disallow: /css/
+Disallow: /js/
+Disallow: /.git/

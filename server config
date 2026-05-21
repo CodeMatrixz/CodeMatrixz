@@ -1,0 +1,14 @@
+# Copyright Protection
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect source code
+<FilesMatch "\.(css|js)$">
+    Header set Cache-Control "private, no-transform"
+</FilesMatch>

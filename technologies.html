@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technologies - TechSolutions</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --dark-teal: #0d9488;
+            --light-teal: #5eead4;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .tech-header {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070') center/cover;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-teal);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .tech-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .tech-header p {
+            font-size: 1.3rem;
+            color: var(--light-gray);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tech-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .tech-section {
+            margin-bottom: 8rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .tech-section:nth-child(even) {
+            direction: rtl;
+        }
+
+        .tech-section:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .tech-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .tech-content p {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .tech-features {
+            margin: 2rem 0;
+        }
+
+        .tech-features h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .tech-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--light-gray);
+        }
+
+        .tech-features li i {
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .use-case {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--medium-gray);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .use-case:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.2);
+        }
+
+        .use-case i {
+            font-size: 2.5rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .use-case h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case p {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+        .tech-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(20, 184, 166, 0.3);
+        }
+
+        .tech-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-teal);
+            color: var(--black);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+            background: var(--medium-gray);
+            border-radius: 15px;
+        }
+
+        .stat-box .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box p {
+            font-size: 0.95rem;
+            color: var(--light-gray);
+        }
+
+        @media (max-width: 768px) {
+            .tech-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .tech-section {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-section:nth-child(even) {
+                direction: ltr;
+            }
+
+            .tech-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tech-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1>Cutting-Edge Technologies</h1>
+        <p>Harnessing the power of emerging technologies to transform businesses and drive innovation</p>
+    </div>
+
+    <div class="tech-page">
+        
+        <!-- 1. Blockchain -->
+        <div class="tech-section">
+            <div class="tech-content">
+                <h2><i class="fas fa-cube"></i> Blockchain Development</h2>
+                <p>Build secure, transparent, and decentralized applications with our blockchain expertise. From smart contracts to distributed ledger solutions, we help you leverage blockchain technology to revolutionize your business operations.</p>
+                
+                <div class="tech-features">
+                    <h3>What We Build:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Smart Contract Development (Ethereum, Solidity)</li>
+                        <li><i class="fas fa-check-circle"></i> Private & Public Blockchain Networks</li>
+                        <li><i class="fas fa-check-circle"></i> DeFi Applications & Protocols</li>
+                        <li><i class="fas fa-check-circle"></i> NFT Marketplaces & Platforms</li>
+                        <li><i class="fas fa-check-circle"></i> Supply Chain Tracking Solutions</li>
+                        <li><i class="fas fa-check-circle"></i> Cryptocurrency Wallets & Exchanges</li>
+                    </ul>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Use Cases:</h3>
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <i class="fas fa-coins"></i>
+                            <h4>Finance</h4>
+                            <p>Secure transactions</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-truck"></i>
+                            <h4>Supply Chain</h4>
+                            <p>Product tracking</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-file-contract"></i>
+                            <h4>Legal</h4>
+                            <p>Smart contracts</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-hospital"></i>
+                            <h4>Healthcare</h4>
+                            <p>Medical records</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Explore Blockchain <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="tech-image">
+                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2070" alt="Blockchain">
+            </div>
+        </div>
+
+        <!-- 2. IoT Development -->
+        <div class="tech-section">
+            <div class="tech-content">
+                <h2><i class="fas fa-network-wired"></i> IoT Development</h2>
+                <p>Connect devices, collect real-time data, and create intelligent ecosystems with our IoT solutions. We design and develop end-to-end IoT systems that enable smart operations and data-driven decision making.</p>
+                
+                <div class="tech-features">
+                    <h3>What We Deliver:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> IoT Hardware & Sensor Integration</li>
+                        <li><i class="fas fa-check-circle"></i> Real-Time Data Processing & Analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Cloud-Connected Device Management</li>
+                        <li><i class="fas fa-check-circle"></i> Industrial IoT (IIoT) Solutions</li>
+                        <li><i class="fas fa-check-circle"></i> Smart Home Automation Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Wearable Technology Development</li>
+                    </ul>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Industry Impact:</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number">40%</div>
+                            <p>Cost Reduction</p>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">60%</div>
+                            <p>Efficiency Gain</p>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">24/7</div>
+                            <p>Monitoring</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Start IoT Project <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="tech-image">
+                <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2070" alt="IoT Development">
+            </div>
+        </div>
+
+        <!-- 3. AR/VR Solutions -->
+        <div class="tech-section">
+            <div class="tech-content">
+                <h2><i class="fas fa-vr-cardboard"></i> AR/VR Solutions</h2>
+                <p>Immerse your customers in extraordinary experiences with augmented and virtual reality. We create engaging AR/VR applications that transform how people interact with your brand, products, and services.</p>
+                
+                <div class="tech-features">
+                    <h3>What We Create:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Virtual Reality Training Simulations</li>
+                        <li><i class="fas fa-check-circle"></i> Augmented Reality Product Visualization</li>
+                        <li><i class="fas fa-check-circle"></i> 3D Virtual Tours & Showrooms</li>
+                        <li><i class="fas fa-check-circle"></i> Interactive AR Marketing Campaigns</li>
+                        <li><i class="fas fa-check-circle"></i> VR Gaming & Entertainment Apps</li>
+                        <li><i class="fas fa-check-circle"></i> Mixed Reality Collaboration Tools</li>
+                    </ul>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Applications:</h3>
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4>Education</h4>
+                            <p>Virtual learning</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h4>Retail</h4>
+                            <p>Try before buy</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-home"></i>
+                            <h4>Real Estate</h4>
+                            <p>Virtual tours</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-heartbeat"></i>
+                            <h4>Healthcare</h4>
+                            <p>Medical training</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Create AR/VR Experience <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="tech-image">
+                <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=2070" alt="AR/VR Solutions">
+            </div>
+        </div>
+
+        <!-- 4. Computer Vision -->
+        <div class="tech-section">
+            <div class="tech-content">
+                <h2><i class="fas fa-eye"></i> Computer Vision</h2>
+                <p>Enable machines to see, interpret, and understand visual information from the world. Our computer vision solutions automate visual inspection, enhance security, and unlock new capabilities for your business.</p>
+                
+                <div class="tech-features">
+                    <h3>What We Develop:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Object Detection & Recognition</li>
+                        <li><i class="fas fa-check-circle"></i> Facial Recognition Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Optical Character Recognition (OCR)</li>
+                        <li><i class="fas fa-check-circle"></i> Quality Control & Defect Detection</li>
+                        <li><i class="fas fa-check-circle"></i> Video Analytics & Surveillance</li>
+                        <li><i class="fas fa-check-circle"></i> Medical Image Analysis</li>
+                    </ul>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Powered By:</h3>
+                    <p style="margin-top: 1rem;">TensorFlow, PyTorch, OpenCV, YOLO, ResNet, CNN, Deep Learning Frameworks</p>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Key Benefits:</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number">99%</div>
+                            <p>Accuracy</p>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">10x</div>
+                            <p>Faster Processing</p>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">80%</div>
+                            <p>Labor Savings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Implement Computer Vision <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="tech-image">
+                <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=2048" alt="Computer Vision">
+            </div>
+        </div>
+
+        <!-- 5. Machine Learning -->
+        <div class="tech-section">
+            <div class="tech-content">
+                <h2><i class="fas fa-brain"></i> Machine Learning</h2>
+                <p>Transform your data into intelligent insights and predictions. Our machine learning solutions help you automate decision-making, discover patterns, and create competitive advantages through AI-powered intelligence.</p>
+                
+                <div class="tech-features">
+                    <h3>What We Build:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Predictive Analytics Models</li>
+                        <li><i class="fas fa-check-circle"></i> Recommendation Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Natural Language Processing (NLP)</li>
+                        <li><i class="fas fa-check-circle"></i> Sentiment Analysis & Text Mining</li>
+                        <li><i class="fas fa-check-circle"></i> Fraud Detection Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Customer Churn Prediction</li>
+                        <li><i class="fas fa-check-circle"></i> Demand Forecasting</li>
+                    </ul>
+                </div>
+
+                <div class="tech-features">
+                    <h3>Use Cases:</h3>
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h4>E-Commerce</h4>
+                            <p>Personalization</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Finance</h4>
+                            <p>Risk analysis</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-industry"></i>
+                            <h4>Manufacturing</h4>
+                            <p>Predictive maintenance</p>
+                        </div>
+                        <div class="use-case">
+                            <i class="fas fa-bullhorn"></i>
+                            <h4>Marketing</h4>
+                            <p>Customer insights</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="cta-button">
+                    Build ML Solutions <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="tech-image">
+                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2070" alt="Machine Learning">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

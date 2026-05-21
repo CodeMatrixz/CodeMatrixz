@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - TechSolutions</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+    <style>
+        :root {
+            --primary-teal: #14b8a6;
+            --dark-teal: #0d9488;
+            --light-teal: #5eead4;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #9ca3af;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .contact-header {
+            background: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-teal);
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .contact-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            color: var(--primary-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-header p {
+            font-size: 1.2rem;
+            color: var(--light-gray);
+        }
+
+        /* Contact Page Container */
+        .contact-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        /* Contact Info Section */
+        .contact-info-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-teal);
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            background: var(--medium-gray);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .detail-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.2);
+        }
+
+        .detail-item i {
+            font-size: 1.8rem;
+            color: var(--primary-teal);
+            margin-top: 0.3rem;
+        }
+
+        .detail-item h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-item p,
+        .detail-item a {
+            color: var(--light-gray);
+            line-height: 1.6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .detail-item a:hover {
+            color: var(--primary-teal);
+        }
+
+        /* Social Links */
+        .social-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--medium-gray);
+            border-radius: 15px;
+        }
+
+        .social-section h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-teal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--dark-gray);
+            color: var(--primary-teal);
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-teal);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--medium-gray);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-gray);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 10px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(156, 163, 175, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary-teal);
+            color: var(--black);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="contact-header">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you. Let's build something amazing together.</p>
+    </div>
+
+    <!-- Contact Page Content -->
+    <div class="contact-page">
+        <div class="contact-container">
+            <!-- Contact Information -->
+            <div class="contact-info-section">
+                <h2>Get In Touch</h2>
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Visit Us</h3>
+                            <p>S.S colony<br>Madurai, TN<br>IN</p>
+                            <p>Broadway Ave<br>Jackson, Wyoming<br>USA</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Call Us</h3>
+                            <p><a href="tel:+91 7200006850">+91 7200006850</a></p>
+                            <p style="font-size: 0.9rem; margin-top: 0.3rem;">Mon - Fri: 9:00 AM - 5:00 PM PST</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email Us</h3>
+                            <p><a href="mailto:info@codematrixz.com">info@codematrixz.com</a></p>
+                            <p><a href="mailto:support@codematrixz.com">support@codematrixz.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Business Hours</h3>
+                            <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+                            <p>Saturday: 10:00 AM - 4:00 PM</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="social-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/code-matrixz-3a22983a8/?trk=public-profile-join-page" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/codematrixz/" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCiX7NvRUsSiERo9AUo4g6PQ" class="social-icon" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61586890630533" class="social-icon" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="name@company.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="contact no">
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="Your Company">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service Interested In *</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="software-dev">Software Development</option>
+                        <option value="web-mobile">Web & Mobile Apps</option>
+                        <option value="ai-automation">AI & Automation</option>
+                        <option value="cloud">Cloud Services</option>
+                        <option value="cybersecurity">Cybersecurity</option>
+                        <option value="devops">DevOps & CI/CD</option>
+                        <option value="consultation">General Consultation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Project Details / Message *</label>
+                    <textarea id="message" name="message" rows="6" required placeholder="Tell us about your project or inquiry..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-button" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const button = document.getElementById('submitBtn');
+            const form = event.target;
+            
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                // Success state
+                button.innerHTML = '<i class="fas fa-check-circle"></i> Message Sent Successfully!';
+                button.style.background = '#10b981';
+                
+                // Show alert
+                alert('Thank you for contacting us! We will get back to you within 24 hours.');
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    form.reset();
+                    button.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+                    button.style.background = '';
+                    button.disabled = false;
+                    button.style.cursor = 'pointer';
+                }, 3000);
+            }, 2000);
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
