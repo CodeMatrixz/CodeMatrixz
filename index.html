@@ -2079,15 +2079,6 @@ header nav {
    SMOOTH SCROLL & ANIMATIONS - OPTIMIZED
    ================================================ */
 
-
-        /* Ensure story image is visible on mobile (absolute child inside wrapper) */
-        @media (max-width: 768px) {
-            .story-images-wrapper {
-                height: 55vh;
-                max-height: none;
-            }
-        }
-
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
@@ -4299,7 +4290,7 @@ function findBestAnswer(userQuery) {
 
     // Smooth interpolation between stories
     let interpolationProgress = 0;
-    const interpolationSpeed = 0.04; // Lower = smoother but slower
+    const interpolationSpeed = 0.1; // Lower = smoother but slower
 
     function updateStory() {
         const rect = storySection.getBoundingClientRect();
