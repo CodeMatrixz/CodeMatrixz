@@ -734,11 +734,32 @@ header nav {
   /* your existing rules */
 }
 
-/* Default: hide on desktop/tablet */
+/* MOBILE MENU BUTTON */
 .mobile-menu-btn {
-  display: none;
+    width: 48px;
+    height: 48px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    background: rgba(20,184,166,0.08);
+    border: 1px solid rgba(20,184,166,0.15);
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 9999;
+    color: white;
+    font-size: 1.5rem;
 }
 
+/* SHOW ONLY ON MOBILE */
+@media (max-width: 992px) {
+
+    .mobile-menu-btn {
+        display: flex !important;
+    }
+
+}
 /* Testimonials with Background */
 .testimonials {
   padding: 8rem 2rem;
@@ -2417,7 +2438,13 @@ a[href="#top"],
     display: none !important;
 }
 
-
+.mobile-menu-btn span {
+    width: 22px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
 
     </style>
 </head>
@@ -2434,8 +2461,11 @@ a[href="#top"],
            Code Matrixz </Code>
         </a>
         
-        <!-- ⭐ ADD THIS MOBILE BUTTON HERE ⭐ -->
-        <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
         
         <ul class="nav-links">
           <li class="has-dropdown">
@@ -4595,8 +4625,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    
      src="mobile-menu.js"
 });
+
            
     </script>
      <!-- Your existing content -->
@@ -4672,4 +4705,5 @@ if (mobileMenuBtn && navLinks) {
 
 </body>
 </html>
+
 
