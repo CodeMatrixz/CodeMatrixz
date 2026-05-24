@@ -2079,6 +2079,15 @@ header nav {
    SMOOTH SCROLL & ANIMATIONS - OPTIMIZED
    ================================================ */
 
+
+        /* Ensure story image is visible on mobile (absolute child inside wrapper) */
+        @media (max-width: 768px) {
+            .story-images-wrapper {
+                height: 55vh;
+                max-height: none;
+            }
+        }
+
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
@@ -2397,17 +2406,6 @@ section {
 
 .portfolio-card:hover .portfolio-tag {
     transform: translateY(-2px);
-}
-
-/* FORCE HIDE - Works on ALL devices */
-.mobile-menu-toggle {
-    display: none !important;
-}
-
-.back-to-top,
-.scroll-to-top,
-#backToTop {
-    display: none !important;
 }
 
 /* Also hide if it has different class names */
@@ -4290,7 +4288,7 @@ function findBestAnswer(userQuery) {
 
     // Smooth interpolation between stories
     let interpolationProgress = 0;
-    const interpolationSpeed = 0.1; // Lower = smoother but slower
+    const interpolationSpeed = 0.04; // Lower = smoother but slower
 
     function updateStory() {
         const rect = storySection.getBoundingClientRect();
@@ -4606,5 +4604,72 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     <!-- ADD THIS BEFORE closing </body> 
     <script src="mobile-menu.js"></script>
 
+    <script>
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
+const dropdownParents = document.querySelectorAll('.has-dropdown');
+
+if (mobileMenuBtn && navLinks) {
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+
+        const isExpanded = mobileMenuBtn.classList.contains('active');
+        mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+    });
+
+    dropdownParents.forEach(parent => {
+
+        const trigger = parent.querySelector(':scope > a');
+
+        if (!trigger) return;
+
+        trigger.addEventListener('click', (e) => {
+
+            if (window.innerWidth > 1024) return;
+
+            const dropdown = parent.querySelector('.dropdown');
+
+            if (!dropdown) return;
+
+            e.preventDefault();
+
+            dropdownParents.forEach(item => {
+                if (item !== parent) {
+                    item.classList.remove('active');
+                }
+            });
+
+            parent.classList.toggle('active');
+        });
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+
+        link.addEventListener('click', () => {
+
+            const href = link.getAttribute('href');
+
+            if (!href || href === '#') return;
+
+            mobileMenuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+            mobileMenuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.classList.remove('menu-open');
+
+            dropdownParents.forEach(item => {
+                item.classList.remove('active');
+</script>
+
 </body>
 </html>
+
