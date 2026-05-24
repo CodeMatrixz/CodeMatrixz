@@ -2446,19 +2446,20 @@ a[href="#top"],
     transition: all 0.3s ease;
 }
 /* ========================================
-   MOBILE RESPONSIVE FIX
+   MOBILE + TABLET NAVIGATION
 ======================================== */
 
 @media (max-width: 1024px) {
 
-  /* ===== NAVBAR ===== */
-
   nav {
-    padding: 15px 20px;
-    position: relative;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  /* SHOW hamburger */
+  /* ===== MOBILE BUTTON ===== */
+
   .mobile-menu-btn {
     display: flex;
     flex-direction: column;
@@ -2468,7 +2469,7 @@ a[href="#top"],
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 2001;
+    z-index: 3000;
   }
 
   .mobile-menu-btn span {
@@ -2476,10 +2477,10 @@ a[href="#top"],
     height: 3px;
     background: #fff;
     border-radius: 10px;
-    transition: 0.3s;
+    transition: 0.3s ease;
   }
 
-  /* Animate hamburger */
+  /* Hamburger animation */
   .mobile-menu-btn.active span:nth-child(1) {
     transform: rotate(45deg) translate(7px, 7px);
   }
@@ -2492,23 +2493,31 @@ a[href="#top"],
     transform: rotate(-45deg) translate(7px, -7px);
   }
 
-  /* ===== MOBILE MENU CONTAINER ===== */
+  /* ===== MOBILE MENU ===== */
 
   .nav-links {
     position: fixed;
     top: 0;
     right: -100%;
     width: 85%;
-    max-width: 360px;
+    max-width: 380px;
     height: 100vh;
+
     background: #0f172a;
+
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     padding: 100px 25px 40px;
-    gap: 0;
-    transition: 0.4s ease;
+
     overflow-y: auto;
-    z-index: 2000;
+
+    transition: right 0.4s ease;
+
+    z-index: 2500;
+
+    gap: 0;
   }
 
   .nav-links.active {
@@ -2519,44 +2528,55 @@ a[href="#top"],
     overflow: hidden;
   }
 
-  /* ===== MOBILE LINKS ===== */
+  /* ===== MENU ITEMS ===== */
 
   .nav-links li {
     width: 100%;
+    list-style: none;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
-  .nav-links li a {
+  .nav-links > li > a {
     width: 100%;
-    padding: 16px 0;
+    padding: 18px 0;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     color: #fff;
+    font-size: 16px;
+    font-weight: 500;
   }
 
-  /* ===== REMOVE DESKTOP DROPDOWN STYLE ===== */
+  /* ===== DROPDOWNS ===== */
 
   .dropdown {
     position: static !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
+
     display: none;
+
     width: 100%;
+
     background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    margin-bottom: 10px;
-    padding: 8px 0;
+
+    border-radius: 14px;
+
+    margin: 10px 0 18px;
+
+    padding: 10px;
+
     box-shadow: none;
   }
 
-  /* ONLY show active dropdown */
   .has-dropdown.active .dropdown {
     display: block;
   }
 
-  /* Hide desktop hover dropdown behavior */
+  /* REMOVE DESKTOP HOVER */
   .has-dropdown:hover .dropdown {
     display: none;
   }
@@ -2565,14 +2585,31 @@ a[href="#top"],
     display: block;
   }
 
-  /* Dropdown links */
+  /* ===== DROPDOWN ITEMS ===== */
+
   .dropdown li {
     border: none;
   }
 
   .dropdown li a {
-    padding: 14px 12px;
-    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    transition: 0.3s ease;
+  }
+
+  .dropdown li a:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .dropdown i {
+    margin-top: 5px;
+    color: #38bdf8;
   }
 
   .menu-item-content {
@@ -2582,22 +2619,21 @@ a[href="#top"],
 
   .menu-title {
     font-size: 14px;
+    font-weight: 600;
+    color: #fff;
   }
 
   .menu-desc {
     font-size: 12px;
-    opacity: 0.7;
-  }
-
-  /* CTA button */
-  .cta-button {
-    display: none;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+    line-height: 1.4;
   }
 
   /* ===== HERO ===== */
 
   .hero-content {
-    padding: 0 20px;
+    padding: 0 24px;
     text-align: center;
   }
 
@@ -2608,44 +2644,88 @@ a[href="#top"],
 
   .hero-content p {
     font-size: 16px;
+    line-height: 1.7;
   }
 
   .hero-buttons {
     flex-direction: column;
+    gap: 16px;
     align-items: center;
   }
 
-  /* ===== ABOUT SECTION ===== */
+  /* ========================================
+     ABOUT SECTION
+  ======================================== */
+
+  .about {
+    padding: 80px 20px;
+  }
 
   .about-container {
-    grid-template-columns: 1fr !important;
-    gap: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
   }
 
   .about-content {
-    order: 2;
+    flex: 1;
+  }
+
+  .about-container > div:last-child {
+    flex: 1;
+    display: flex;
+    justify-content: center;
   }
 
   .about-container img {
-    display: block;
     width: 100%;
-    height: auto;
-    border-radius: 20px;
-    object-fit: cover;
-  }
+    max-width: 420px;
 
-  /* Make image visible properly */
-  .about-container > div:last-child {
-    display: block !important;
-    width: 100%;
-    order: 1;
+    border-radius: 24px;
+
+    border: 4px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+      0 10px 40px rgba(0,0,0,0.35),
+      0 0 25px rgba(56,189,248,0.12);
+
+    object-fit: cover;
+
+    margin: 10px;
   }
 
 }
 
 
 /* ========================================
-   DESKTOP FIX
+   SMALL MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-content {
+    order: 2;
+  }
+
+  .about-container > div:last-child {
+    order: 1;
+    width: 100%;
+  }
+
+  .about-container img {
+    max-width: 100%;
+  }
+
+}
+
+
+/* ========================================
+   DESKTOP FIXES
 ======================================== */
 
 @media (min-width: 1025px) {
@@ -2657,9 +2737,9 @@ a[href="#top"],
   .nav-links {
     display: flex;
     align-items: center;
+    gap: 30px;
   }
 
-  /* NORMAL desktop dropdown */
   .dropdown {
     display: block;
     opacity: 0;
@@ -2670,6 +2750,7 @@ a[href="#top"],
     opacity: 1;
     visibility: visible;
   }
+
 }
 
     </style>
@@ -4931,6 +5012,5 @@ if (mobileMenuBtn && navLinks) {
 
 </body>
 </html>
-
 
 
