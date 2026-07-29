@@ -5203,76 +5203,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
            
-    </script>
-     <!-- Your existing content -->
-    
-    <!-- ADD THIS BEFORE closing </body> 
-    <script src="mobile-menu.js"></script>
-
-    <script>
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const navLinks = document.querySelector('.nav-links');
-const dropdownParents = document.querySelectorAll('.has-dropdown');
-
-if (mobileMenuBtn && navLinks) {
-
-    mobileMenuBtn.addEventListener('click', () => {
-        mobileMenuBtn.classList.toggle('active');
-        navLinks.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-
-        const isExpanded = mobileMenuBtn.classList.contains('active');
-        mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
-    });
-
-    dropdownParents.forEach(parent => {
-
-        const trigger = parent.querySelector(':scope > a');
-
-        if (!trigger) return;
-
-        trigger.addEventListener('click', (e) => {
-
-            if (window.innerWidth > 1024) return;
-
-            const dropdown = parent.querySelector('.dropdown');
-
-            if (!dropdown) return;
-
-            e.preventDefault();
-
-            dropdownParents.forEach(item => {
-                if (item !== parent) {
-                    item.classList.remove('active');
-                }
-            });
-
-            parent.classList.toggle('active');
+   <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
+ 
+    // Open/close the mobile hamburger menu
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', function () {
+            const isOpen = navLinks.classList.toggle('active');
+            menuBtn.classList.toggle('active', isOpen);
+            body.classList.toggle('menu-open', isOpen);
+            menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    }
+ 
+    // On mobile, tapping a menu item that has a dropdown opens/closes
+    // that dropdown instead of navigating away
+    document.querySelectorAll('.has-dropdown > a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            if (window.innerWidth <= 1024) {
+                const parentLi = link.parentElement;
+                e.preventDefault();
+                const isActive = parentLi.classList.contains('active');
+ 
+                // close any other open dropdowns first
+                document.querySelectorAll('.has-dropdown.active').forEach(function (li) {
+                    if (li !== parentLi) li.classList.remove('active');
+                });
+ 
+                parentLi.classList.toggle('active', !isActive);
+            }
         });
     });
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-
-        link.addEventListener('click', () => {
-
-            const href = link.getAttribute('href');
-
-            if (!href || href === '#') return;
-
-            mobileMenuBtn.classList.remove('active');
+ 
+    // Tapping a normal (non-dropdown) link closes the mobile menu
+    document.querySelectorAll('.nav-links > li:not(.has-dropdown) > a').forEach(function (link) {
+        link.addEventListener('click', function () {
             navLinks.classList.remove('active');
-            document.body.classList.remove('menu-open');
+            menuBtn.classList.remove('active');
+            body.classList.remove('menu-open');
+            menuBtn.setAttribute('aria-expanded', 'false');
         });
     });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 1024) {
-            mobileMenuBtn.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.classList.remove('menu-open');
-
-            dropdownParents.forEach(item => {
-                item.classList.remove('active');
+});
 </script>
 
 </body>
