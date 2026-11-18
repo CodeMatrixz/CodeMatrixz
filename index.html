@@ -4700,14 +4700,6 @@ function findBestAnswer(userQuery) {
             });
         });
 
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-
         // Parallax Effect for Background Images
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
