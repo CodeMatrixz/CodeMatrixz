@@ -4788,6 +4788,333 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+    
+(() => {
+  function initializeNavigation() {
+    const header = document.getElementById('header');
+
+    if (!header || header.hasAttribute('data-cm-ready')) return;
+
+    const nav = header.querySelector('.cm-nav');
+    if (!nav) return;
+
+    const panel = nav.querySelector('.cm-panel');
+    const openButton = nav.querySelector('.cm-open');
+    const closeButton = nav.querySelector('.cm-close');
+    const list = nav.querySelector('.cm-list');
+    const logo = nav.querySelector('.cm-logo');
+    const cta = nav.querySelector('.cm-cta');
+    const groups = [...list.children];
+    const mobile = matchMedia('(max-width: 1100px)');
+
+    header.setAttribute('data-cm-ready', '');
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'cm-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.append(backdrop);
+
+    let activeGroup = null;
+    let menuOpen = false;
+    let hoverOpened = null;
+    let hoverTimer;
+    let savedScroll = 0;
+    let savedBodyStyle;
+    let savedHeaderStyle;
+    let inertStates = [];
+
+    function positionDropdown() {
+      if (mobile.matches || !activeGroup) return;
+
+      const rect = activeGroup.getBoundingClientRect();
+      const width = Math.min(720, window.innerWidth - 32);
+      const left = Math.max(
+        16,
+        Math.min(rect.left, window.innerWidth - width - 16)
+      );
+
+      header.style.setProperty('--cm-left', left + 'px');
+      header.style.setProperty(
+        '--cm-top',
+        header.getBoundingClientRect().bottom + 8 + 'px'
+      );
+    }
+
+    function expand(group, shouldOpen) {
+      clearTimeout(hoverTimer);
+
+      groups.forEach(item => {
+        const expanded = item === group && shouldOpen;
+        const trigger = item.querySelector('.cm-trigger');
+        const dropdown = item.querySelector('.cm-drop');
+
+        item.classList.toggle('cm-expanded', expanded);
+        trigger.setAttribute('aria-expanded', String(expanded));
+        dropdown.inert = !expanded;
+      });
+
+      activeGroup = shouldOpen ? group : null;
+      positionDropdown();
+    }
+
+    function setMobileMenu(shouldOpen, restoreFocus = true) {
+      if (shouldOpen === menuOpen) return;
+
+      menuOpen = shouldOpen;
+      openButton.setAttribute('aria-expanded', String(shouldOpen));
+      panel.classList.toggle('cm-visible', shouldOpen);
+      backdrop.classList.toggle('cm-visible', shouldOpen);
+
+      if (shouldOpen) {
+        savedScroll = window.scrollY;
+        savedBodyStyle = document.body.getAttribute('style');
+        savedHeaderStyle = header.getAttribute('style');
+
+        Object.assign(document.body.style, {
+          position: 'fixed',
+          top: `-${savedScroll}px`,
+          width: '100%',
+          overflow: 'hidden'
+        });
+
+        header.style.backdropFilter = 'none';
+        header.style.webkitBackdropFilter = 'none';
+        header.style.transform = 'none';
+
+        panel.inert = false;
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-modal', 'true');
+        panel.setAttribute('aria-labelledby', 'cm-panel-title');
+
+        inertStates = [];
+
+        function disableBackground(parent) {
+          [...parent.children].forEach(child => {
+            if (child === header || child === backdrop) return;
+
+            if (child.contains(header)) {
+              disableBackground(child);
+            } else {
+              inertStates.push([child, child.inert]);
+              child.inert = true;
+            }
+          });
+        }
+
+        disableBackground(document.body);
+
+        openButton.inert = true;
+        logo.inert = true;
+        cta.inert = true;
+        closeButton.focus();
+      } else {
+        expand(null, false);
+
+        panel.inert = mobile.matches;
+        panel.removeAttribute('role');
+        panel.removeAttribute('aria-modal');
+        panel.removeAttribute('aria-labelledby');
+
+        inertStates.forEach(([element, previousValue]) => {
+          element.inert = previousValue;
+        });
+        inertStates = [];
+
+        openButton.inert = false;
+        logo.inert = false;
+        cta.inert = false;
+
+        if (savedBodyStyle === null) {
+          document.body.removeAttribute('style');
+        } else {
+          document.body.setAttribute('style', savedBodyStyle);
+        }
+
+        if (savedHeaderStyle === null) {
+          header.removeAttribute('style');
+        } else {
+          header.setAttribute('style', savedHeaderStyle);
+        }
+
+        const previousBehavior =
+          document.documentElement.style.scrollBehavior;
+
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, savedScroll);
+        document.documentElement.style.scrollBehavior = previousBehavior;
+
+        if (restoreFocus) openButton.focus();
+      }
+    }
+
+    groups.forEach(group => {
+      const trigger = group.querySelector('.cm-trigger');
+
+      trigger.addEventListener('click', event => {
+        if (
+          event.detail > 0 &&
+          activeGroup === group &&
+          hoverOpened === group
+        ) {
+          hoverOpened = null;
+          return;
+        }
+
+        hoverOpened = null;
+        expand(group, activeGroup !== group);
+      });
+
+      group.addEventListener('pointerenter', event => {
+        clearTimeout(hoverTimer);
+
+        if (!mobile.matches && event.pointerType === 'mouse') {
+          expand(group, true);
+          hoverOpened = group;
+        }
+      });
+
+      group.addEventListener('pointerleave', () => {
+        hoverTimer = setTimeout(() => {
+          if (
+            !mobile.matches &&
+            activeGroup === group &&
+            !group.contains(document.activeElement)
+          ) {
+            expand(null, false);
+            hoverOpened = null;
+          }
+        }, 180);
+      });
+
+      trigger.addEventListener('keydown', event => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          expand(group, true);
+          group.querySelector('.cm-link').focus();
+        }
+      });
+    });
+
+    openButton.addEventListener('click', () => setMobileMenu(true));
+    closeButton.addEventListener('click', () => setMobileMenu(false));
+    backdrop.addEventListener('click', () => setMobileMenu(false));
+
+    list.addEventListener('click', event => {
+      const link = event.target.closest('.cm-link');
+      if (!link) return;
+
+      if (menuOpen) setMobileMenu(false);
+      else expand(null, false);
+
+      // Normal <a> links retain their default navigation behavior.
+      if (link.hasAttribute('data-chat')) {
+        const chatWindow = document.getElementById('chatbotWindow');
+        const chatToggle = document.getElementById('chatbotToggle');
+
+        if (chatWindow && chatToggle) {
+          if (!chatWindow.classList.contains('active')) {
+            chatToggle.click();
+          }
+
+          requestAnimationFrame(() => {
+            document.getElementById('chatbotInput')?.focus();
+          });
+        }
+      }
+    });
+
+    document.addEventListener('click', event => {
+      if (!menuOpen && !header.contains(event.target)) {
+        expand(null, false);
+      }
+    });
+
+    document.addEventListener('focusin', event => {
+      if (!menuOpen && !list.contains(event.target)) {
+        expand(null, false);
+      } else if (
+        !mobile.matches &&
+        activeGroup &&
+        !activeGroup.contains(event.target)
+      ) {
+        expand(null, false);
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        if (menuOpen) {
+          event.preventDefault();
+          setMobileMenu(false);
+        } else if (activeGroup) {
+          const trigger = activeGroup.querySelector('.cm-trigger');
+          expand(null, false);
+          trigger.focus();
+        }
+      }
+
+      if (event.key === 'Tab' && menuOpen) {
+        const focusable = [
+          ...panel.querySelectorAll('button, a[href]')
+        ].filter(element =>
+          !element.closest('[inert]') &&
+          element.getClientRects().length
+        );
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (
+          !event.shiftKey &&
+          document.activeElement === last
+        ) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    function synchronizeBreakpoint() {
+      const hadFocus = header.contains(document.activeElement);
+
+      if (menuOpen) setMobileMenu(false, false);
+
+      expand(null, false);
+      panel.inert = mobile.matches;
+
+      if (hadFocus) {
+        const target = mobile.matches
+          ? openButton
+          : groups[0].querySelector('.cm-trigger');
+
+        target.focus();
+      }
+    }
+
+    mobile.addEventListener('change', synchronizeBreakpoint);
+    window.addEventListener('resize', positionDropdown);
+    window.addEventListener('scroll', positionDropdown, {
+      passive: true
+    });
+
+    synchronizeBreakpoint();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      initializeNavigation,
+      { once: true }
+    );
+  } else {
+    initializeNavigation();
+  }
+})();
+
 </script>
 
 </body>
