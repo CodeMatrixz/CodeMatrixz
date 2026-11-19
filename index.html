@@ -2618,6 +2618,81 @@ a[href="#top"], .to-top, .scroll-top {
     transition: none;
   }
 }
+
+        /* Mobile: image above content, same pinned scrolling */
+@media (max-width: 768px) {
+  #our-story .story-container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows:
+      clamp(120px, 25svh, 210px)
+      minmax(0, 1fr);
+    align-items: stretch;
+    gap: .75rem;
+  }
+
+  /* Top: image */
+  #our-story .story-images-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: auto;
+    align-self: stretch;
+  }
+
+  #our-story .story-image,
+  #our-story .story-image img {
+    width: 100%;
+    height: 100%;
+  }
+
+  #our-story .story-image img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* Bottom: heading, description and statistics */
+  #our-story .story-content-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    align-self: stretch;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #our-story .story-content h2 {
+    font-size: clamp(1.25rem, 5.5vw, 1.625rem);
+    line-height: 1.25;
+  }
+
+  #our-story .story-content p {
+    font-size: .875rem;
+    line-height: 1.6;
+  }
+
+  #our-story .story-tag {
+    font-size: .7rem;
+    padding: .3rem .7rem;
+  }
+
+  #our-story .story-stats .stat {
+    padding: 1rem .6rem;
+  }
+
+  #our-story .stat strong {
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+  }
+
+  #our-story .stat span {
+    font-size: .8rem;
+  }
+}
         </style>
 </head>
 <body>
