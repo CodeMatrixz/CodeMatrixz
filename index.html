@@ -2417,6 +2417,201 @@ a[href="#top"], .to-top, .scroll-top {
     animation: none !important;
   }
 }
+
+/* Mobile Success Story carousel only */
+#our-story .story-mobile-controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #our-story[data-mobile-carousel] {
+    min-height: 0;
+    height: auto;
+    padding-bottom: 2rem;
+  }
+
+  #our-story[data-mobile-carousel] .section-header {
+    padding: 3rem 1rem 0;
+    margin-bottom: 1.5rem;
+  }
+
+  #our-story[data-mobile-carousel] .section-header h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    margin-bottom: .75rem;
+  }
+
+  #our-story[data-mobile-carousel] .section-header p {
+    font-size: .9rem;
+    line-height: 1.6;
+  }
+
+  #our-story[data-mobile-carousel] .story-container {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 1rem .75rem;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 0 1rem;
+  }
+
+  /* Image on the left */
+  #our-story[data-mobile-carousel] .story-images-wrapper {
+    display: block;
+    position: relative;
+    grid-column: 1;
+    grid-row: 2;
+    order: initial;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  /* Text on the right */
+  #our-story[data-mobile-carousel] .story-content-wrapper {
+    display: block;
+    position: relative;
+    grid-column: 2;
+    grid-row: 2;
+    order: initial;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+  }
+
+  /* Hide every story except the selected pair */
+  #our-story[data-mobile-carousel] .story-image,
+  #our-story[data-mobile-carousel] .story-content {
+    display: none;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    grid-row: auto;
+    grid-column: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  #our-story[data-mobile-carousel] [data-mobile-selected] {
+    display: block;
+  }
+
+  #our-story[data-mobile-carousel] .story-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 55svh;
+    object-fit: contain;
+    border-radius: 14px;
+    transform: none;
+  }
+
+  #our-story[data-mobile-carousel] .story-tags {
+    gap: .3rem;
+    margin-bottom: .65rem;
+  }
+
+  #our-story[data-mobile-carousel] .story-tag {
+    max-width: 100%;
+    padding: .25rem .5rem;
+    font-size: .625rem;
+    letter-spacing: .2px;
+    overflow-wrap: anywhere;
+  }
+
+  #our-story[data-mobile-carousel] .story-content h2 {
+    font-size: clamp(1.125rem, 4.8vw, 1.5rem);
+    line-height: 1.25;
+    margin-bottom: .75rem;
+    overflow-wrap: anywhere;
+  }
+
+  #our-story[data-mobile-carousel] .story-content p {
+    font-size: .875rem;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  #our-story[data-mobile-carousel] .story-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .5rem;
+    margin-top: 1rem;
+  }
+
+  #our-story[data-mobile-carousel] .story-stats .stat {
+    min-width: 0;
+    padding: .85rem .25rem;
+    border-radius: 10px;
+  }
+
+  #our-story[data-mobile-carousel] .stat strong {
+    font-size: clamp(1rem, 4.3vw, 1.4rem);
+    margin-bottom: .35rem;
+    overflow-wrap: anywhere;
+  }
+
+  #our-story[data-mobile-carousel] .stat span {
+    font-size: .7rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* Controls above the current story */
+  #our-story[data-mobile-carousel] .story-mobile-controls {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  #our-story .story-mobile-controls button {
+    min-height: 44px;
+    padding: .65rem .9rem;
+    border: 1px solid var(--primary-teal);
+    border-radius: 50px;
+    background: var(--primary-teal);
+    color: var(--black);
+    font: inherit;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #our-story .story-mobile-controls button:disabled {
+    opacity: .4;
+    cursor: default;
+  }
+
+  #our-story .story-mobile-controls button:focus-visible {
+    outline: 2px solid var(--light-teal);
+    outline-offset: 3px;
+  }
+
+  #our-story .story-mobile-counter {
+    font-size: .8rem;
+    color: var(--light-gray);
+    white-space: nowrap;
+  }
+}
+        
      </style>
 </head>
 <body>
@@ -5110,15 +5305,13 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <script>
 (() => {
-  function initializeMobileStories() {
+  function initializeStoryCarousel() {
     const section = document.getElementById('our-story');
-    if (!section) return;
-
-    const container = section.querySelector('.story-container');
+    const container = section?.querySelector('.story-container');
 
     if (
       !container ||
-      container.hasAttribute('data-story-mobile-ready')
+      section.hasAttribute('data-mobile-carousel')
     ) return;
 
     const images = [
@@ -5135,73 +5328,107 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!images.length || images.length !== contents.length) return;
 
-    container.setAttribute('data-story-mobile-ready', '');
+    section.setAttribute('data-mobile-carousel', '');
 
-    const mobile = window.matchMedia('(max-width: 768px)');
+    const mobile = matchMedia('(max-width: 768px)');
 
-    // Place each image immediately before its matching text.
-    const elements = images.flatMap((image, index) => [
-      image,
-      contents[index]
-    ]);
+    const controls = document.createElement('div');
+    controls.className = 'story-mobile-controls';
+    controls.setAttribute('role', 'group');
+    controls.setAttribute('aria-label', 'Success Story navigation');
 
-    const originalRows = elements.map(element => ({
-      value: element.style.getPropertyValue('--mobile-story-row'),
-      priority: element.style.getPropertyPriority('--mobile-story-row')
-    }));
+    const previous = document.createElement('button');
+    previous.type = 'button';
+    previous.textContent = 'Previous';
+    previous.setAttribute('aria-label', 'Previous success story');
 
-    const originalAttribute =
-      container.getAttribute('data-mobile-stories');
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.textContent = 'Next';
+    next.setAttribute('aria-label', 'Next success story');
 
-    function updateLayout() {
-      if (mobile.matches) {
-        elements.forEach((element, index) => {
-          element.style.setProperty(
-            '--mobile-story-row',
-            String(index + 1)
-          );
-        });
+    const counter = document.createElement('span');
+    counter.className = 'story-mobile-counter';
+    counter.setAttribute('role', 'status');
+    counter.setAttribute('aria-live', 'polite');
+    counter.setAttribute('aria-atomic', 'true');
 
-        container.setAttribute('data-mobile-stories', '');
-      } else {
-        // Restore the existing desktop layout.
-        elements.forEach((element, index) => {
-          const original = originalRows[index];
+    let selected = 0;
 
-          if (original.value) {
-            element.style.setProperty(
-              '--mobile-story-row',
-              original.value,
-              original.priority
-            );
-          } else {
-            element.style.removeProperty('--mobile-story-row');
-          }
-        });
+    function showStory(index) {
+      selected = Math.max(
+        0,
+        Math.min(index, images.length - 1)
+      );
 
-        if (originalAttribute === null) {
-          container.removeAttribute('data-mobile-stories');
-        } else {
-          container.setAttribute(
-            'data-mobile-stories',
-            originalAttribute
-          );
-        }
-      }
+      images.forEach((image, i) => {
+        image.toggleAttribute(
+          'data-mobile-selected',
+          i === selected
+        );
+      });
+
+      contents.forEach((content, i) => {
+        content.toggleAttribute(
+          'data-mobile-selected',
+          i === selected
+        );
+      });
+
+      counter.textContent = `${selected + 1} / ${images.length}`;
+
+      const title =
+        contents[selected].querySelector('h2')?.textContent || '';
+
+      counter.setAttribute(
+        'aria-label',
+        `Story ${selected + 1} of ${images.length}: ${title}`
+      );
+
+      previous.disabled = selected === 0;
+      next.disabled = selected === images.length - 1;
     }
 
-    mobile.addEventListener('change', updateLayout);
-    updateLayout();
+    previous.addEventListener('click', () => {
+      showStory(selected - 1);
+    });
+
+    next.addEventListener('click', () => {
+      showStory(selected + 1);
+    });
+
+    controls.addEventListener('keydown', event => {
+      if (!mobile.matches) return;
+
+      if (
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight'
+      ) {
+        event.preventDefault();
+
+        showStory(
+          selected + (event.key === 'ArrowRight' ? 1 : -1)
+        );
+
+        if (document.activeElement.disabled) {
+          (previous.disabled ? next : previous).focus();
+        }
+      }
+    });
+
+    controls.append(previous, counter, next);
+    container.prepend(controls);
+    showStory(0);
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener(
       'DOMContentLoaded',
-      initializeMobileStories,
+      initializeStoryCarousel,
       { once: true }
     );
   } else {
-    initializeMobileStories();
+    initializeStoryCarousel();
   }
 })();
 </script>
