@@ -5108,7 +5108,103 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 </script>
+<script>
+(() => {
+  function initializeMobileStories() {
+    const section = document.getElementById('our-story');
+    if (!section) return;
 
+    const container = section.querySelector('.story-container');
+
+    if (
+      !container ||
+      container.hasAttribute('data-story-mobile-ready')
+    ) return;
+
+    const images = [
+      ...container.querySelectorAll(
+        '.story-images-wrapper > .story-image'
+      )
+    ];
+
+    const contents = [
+      ...container.querySelectorAll(
+        '.story-content-wrapper > .story-content'
+      )
+    ];
+
+    if (!images.length || images.length !== contents.length) return;
+
+    container.setAttribute('data-story-mobile-ready', '');
+
+    const mobile = window.matchMedia('(max-width: 768px)');
+
+    // Place each image immediately before its matching text.
+    const elements = images.flatMap((image, index) => [
+      image,
+      contents[index]
+    ]);
+
+    const originalRows = elements.map(element => ({
+      value: element.style.getPropertyValue('--mobile-story-row'),
+      priority: element.style.getPropertyPriority('--mobile-story-row')
+    }));
+
+    const originalAttribute =
+      container.getAttribute('data-mobile-stories');
+
+    function updateLayout() {
+      if (mobile.matches) {
+        elements.forEach((element, index) => {
+          element.style.setProperty(
+            '--mobile-story-row',
+            String(index + 1)
+          );
+        });
+
+        container.setAttribute('data-mobile-stories', '');
+      } else {
+        // Restore the existing desktop layout.
+        elements.forEach((element, index) => {
+          const original = originalRows[index];
+
+          if (original.value) {
+            element.style.setProperty(
+              '--mobile-story-row',
+              original.value,
+              original.priority
+            );
+          } else {
+            element.style.removeProperty('--mobile-story-row');
+          }
+        });
+
+        if (originalAttribute === null) {
+          container.removeAttribute('data-mobile-stories');
+        } else {
+          container.setAttribute(
+            'data-mobile-stories',
+            originalAttribute
+          );
+        }
+      }
+    }
+
+    mobile.addEventListener('change', updateLayout);
+    updateLayout();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      initializeMobileStories,
+      { once: true }
+    );
+  } else {
+    initializeMobileStories();
+  }
+})();
+</script>
 </body>
 </html>
 
